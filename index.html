@@ -1,36 +1,273 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠦᠨ ᠰᠠᠢᠲ</title>
     <style>
+        /* 全局样式 - Windows XP风格基础 */
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
+            margin: 0;
+            padding: 15px;
+            background-color: #E8E8E8;
+            font-family: "SimSun", "Tahoma", sans-serif;
+            color: #000000;
+        }
+
+        /* 主容器 - 模拟XP窗口效果 */
+        .xp-window {
+            width: calc(100% - 30px);
+            min-height: calc(100vh - 30px);
+            border: 1px solid #003C74;
+            background-color: #FFFFFF;
+            box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* 标题栏 - XP经典蓝白渐变 */
+        .xp-titlebar {
+            height: 28px;
+            background: linear-gradient(to right, #0054E3, #0078D7);
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            color: #FFFFFF;
+            font-weight: bold;
+            font-size: 12px;
+            border-bottom: 1px solid #003C74;
+        }
+
+        /* 内容区布局 */
+        .page-container {
+            display: flex;
             padding: 20px;
+            min-height: calc(100% - 70px);
+            box-sizing: border-box;
         }
-        h1 {
-            color: #333;
+
+        /* 左侧竖排文字区域 */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            margin-right: 60px;
+            padding: 10px;
+            border-right: 1px solid #C0C0C0;
         }
-        .content {
-            margin-top: 20px;
+
+        .vertical-text {
+            writing-mode: vertical-lr; /* 竖排且从左到右排列 */
+            font-size: 32px;
+            line-height: 2.2;
+            margin: 0;
+            color: #003366;
+            font-family: "SimSun", serif;
+        }
+
+        /* 右侧内容区域 - 模拟XP文档窗口 */
+        .right-column {
+            flex: 1;
+            padding: 20px;
+            background-color: #F0F0F0;
+            border: 1px solid #C0C0C0;
+            border-radius: 2px;
+        }
+
+        .right-content {
+            font-size: 16px;
+            line-height: 1.8;
+            max-width: 800px;
+            color: #333333;
+            text-align: justify;
+        }
+
+        /* 推荐导航区域 - XP风格 */
+        .recommended-nav {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #C0C0C0; /* 分隔线 */
+        }
+
+        .nav-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #003366;
+            padding: 3px 8px;
+            background-color: #E0E0E0;
+            display: inline-block;
+            border: 1px solid #C0C0C0;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-item {
+            padding: 5px 12px;
+            background-color: #F0F0F0;
+            border: 1px solid #C0C0C0;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+            transition: all 0.1s ease;
+        }
+
+        /* 链接样式 - 保持XP风格的蓝色下划线 */
+        .nav-item a {
+            color: #0000FF; /* XP经典链接蓝色 */
+            text-decoration: underline;
+            display: inline-block; /* 确保点击区域与按钮一致 */
+        }
+
+        .nav-item:hover {
+            background-color: #E8E8E8;
+            border-color: #A0A0A0;
+        }
+
+        .nav-item:active {
+            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        /* 底部状态栏 - XP风格 */
+        .xp-statusbar {
+            height: 24px;
+            background-color: #F0F0F0;
+            border-top: 1px solid #C0C0C0;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            font-size: 11px;
+            color: #333333;
+        }
+
+        /* 平板设备（≤768px）适配 */
+        @media (max-width: 768px) {
+            .page-container {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .left-column {
+                flex-direction: row;
+                gap: 20px;
+                margin-right: 0;
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+                border-right: none;
+                border-bottom: 1px solid #C0C0C0;
+                justify-content: center;
+                height: 180px;
+            }
+
+            .vertical-text {
+                font-size: 24px;
+                line-height: 1.8;
+            }
+
+            .right-column {
+                padding: 15px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .right-content {
+                font-size: 14px;
+                max-width: 100%;
+            }
+
+            .nav-item {
+                font-size: 13px;
+                padding: 4px 10px;
+            }
+        }
+
+        /* 手机设备（≤480px）适配 */
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+
+            .xp-window {
+                width: calc(100% - 16px);
+                min-height: calc(100vh - 16px);
+            }
+
+            .left-column {
+                flex-wrap: wrap;
+                gap: 15px;
+                height: auto;
+                padding: 10px 0;
+            }
+
+            .vertical-text {
+                font-size: 20px;
+                line-height: 1.6;
+                margin: 5px 0;
+            }
+
+            .right-content {
+                font-size: 13px;
+                line-height: 1.6;
+            }
+
+            .nav-list {
+                gap: 8px;
+            }
+
+            .nav-item {
+                font-size: 12px;
+                padding: 3px 8px;
+                flex: 1;
+                min-width: 100px;
+                text-align: center;
+            }
+
+            .xp-statusbar {
+                font-size: 10px;
+                height: 22px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>ᠪᠦᠷᠭᠡᠳ ᠦᠨ ᠮᠣᠩᠭᠣᠯ ᠬᠡᠯᠡᠨ ᠦ ᠸᠧᠪ ᠰᠠᠢᠢᠲ</h1>
-    
-    <div class="content">
-        <p>ᠡᠨᠡ ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠦᠨ ᠰᠠᠢᠲ ᠰᠤᠷᠤᠯᠴᠠᠭᠴᠢᠳ ᠲᠤ ᠪᠠᠶᠠᠯᠢᠭ ᠡᠬᠢ ᠰᠤᠷᠪᠤᠯᠵᠢ ᠶᠢ ᠬᠠᠩᠭᠠᠵᠤ ᠪᠠᠢᠨ᠎ᠠ᠃</p>
-        
-        <p>本网站提供：</p>
-        <ul>
-            <li>本人的笔记</li>
-            <li>蒙古语书、教材下载</li>
-            <li>零散的学习资料</li>
-        </ul>
+    <div class="xp-window">
+        <div class="xp-titlebar">
+            蒙古语学习网站 - 布日古德
+        </div>
+
+        <div class="page-container">
+            <div class="left-column">
+                <p class="vertical-text">ᠪᠦᠷᠭᠡᠳ ᠦᠨ ᠮᠣᠩᠭᠣᠯ ᠬᠡᠯᠡᠨ ᠦ ᠸᠧᠪ ᠰᠠᠢᠢᠲ</p>
+                <p class="vertical-text">ᠡᠨᠡ ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠦᠨ ᠰᠠᠢᠲ ᠰᠤᠷᠤᠯᠴᠠᠭᠴᠢᠳ ᠲᠤ ᠪᠠᠶᠠᠯᠢᠭ ᠡᠬᠢ ᠰᠤᠷᠪᠤᠯᠵᠢ ᠶᠢ ᠬᠠᠩᠭᠠᠵᠤ ᠪᠠᠢᠨ᠎ᠠ᠃</p>
+            </div>
+            
+            <div class="right-column">
+                <p class="right-content">这是一个来自内蒙古自治区的草原孩子的蒙古语学习分享站。<br>五十六个民族是一家，中华民族一家亲<br>在这里，你可以找到蒙古语基础词汇、语法知识、日常对话以及蒙古语相关的内容。</p>
+                <p class="right-content" style="margin-top: 20px;">无论是初学者还是有一定基础的学习者，都能在这里找到适合自己的学习资源。我们致力于推广蒙古语文化，让更多人了解和喜爱这门优美的语言。</p>
+
+                <!-- 推荐导航区域 -->
+                <div class="recommended-nav">
+                    <div class="nav-title">推荐学习内容</div>
+                    <ul class="nav-list">
+                        <!-- 为"小学蒙古语语文"添加链接 -->
+                        <li class="nav-item"><a href=".\subpage\Primary_MGL\index.html">小学蒙古语语文</a></li>
+                        <li class="nav-item">基础语法教程</li>
+                        <li class="nav-item">学习问答社区</li>
+                    </ul>
+                </div>
+				
+            </div>
+        </div>
+
+        <div class="xp-statusbar">
+            状态栏 - 布日古德蒙古语学习网站 © 2025
+        </div>
     </div>
 </body>
 </html>
