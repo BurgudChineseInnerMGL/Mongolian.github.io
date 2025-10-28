@@ -10,16 +10,16 @@
     <title>小学蒙古语资源库</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* 1. 全局样式 - 完全还原Windows XP系统风格 */
+        /* 1. 全局样式 - 还原Windows XP系统质感 */
         body {
             margin: 0;
-            padding: 20px; /* XP桌面边距感 */
-            background-color: #005EBB; /* XP经典桌面蓝色背景 */
+            padding: 20px; /* 桌面边距感 */
+            background-color: #005EBB; /* XP经典桌面蓝 */
             font-family: "SimSun", "Tahoma", sans-serif; /* XP默认字体 */
             color: #000000;
         }
 
-        /* 核心：XP窗口容器 - 还原经典窗口样式 */
+        /* 核心：窗口容器 - 还原XP窗口样式 */
         .xp-window {
             width: calc(100% - 40px);
             min-height: calc(100vh - 40px);
@@ -31,10 +31,10 @@
             flex-direction: column;
         }
 
-        /* XP窗口标题栏 - 标志性蓝白渐变 */
+        /* 窗口标题栏 - XP标志性蓝白渐变 */
         .xp-titlebar {
             height: 28px;
-            background: linear-gradient(to right, #0054E3, #0078D7); /* XP标题栏渐变 */
+            background: linear-gradient(to right, #0054E3, #0078D7);
             padding: 0 10px;
             display: flex;
             align-items: center;
@@ -52,25 +52,25 @@
             box-sizing: border-box;
         }
 
-        /* 左侧竖版标题栏 - 适配XP风格 */
+        /* 左侧竖版标题栏 - 适配系统风格 */
         .left-column {
             display: flex;
             flex-direction: column;
-            gap: 30px; /* 竖排文字间距（XP简洁感） */
+            gap: 30px; /* 竖排文字间距 */
             margin-right: 40px;
             padding: 10px;
             border-right: 1px solid #C0C0C0; /* XP灰色分隔线 */
             align-items: center;
         }
 
-        /* 竖版标题 - 保留核心样式+XP字体 */
+        /* 竖版标题 - 保留核心样式+系统字体 */
         .vertical-text {
             writing-mode: vertical-lr; /* 竖排从左到右 */
-            font-size: 28px; /* 适配XP窗口比例 */
+            font-size: 28px; /* 适配窗口比例 */
             line-height: 2.0;
             margin: 0;
             color: #003366; /* XP经典深蓝色文字 */
-            font-family: "SimSun", serif; /* XP默认宋体 */
+            font-family: "SimSun", serif;
         }
 
         /* 3. 右侧内容区 - XP文档风格 */
@@ -79,11 +79,11 @@
             padding: 15px;
             background-color: #F0F0F0; /* XP内容区浅灰背景 */
             border: 1px solid #C0C0C0; /* XP控件边框 */
-            border-radius: 2px; /* XP轻微圆角（非纯直角） */
+            border-radius: 2px; /* 轻微圆角（XP控件特征） */
             overflow-y: auto;
         }
 
-        /* 4. XP风格控件样式 */
+        /* 4. 系统风格控件样式 */
         /* 筛选按钮 */
         .filters {
             margin-bottom: 15px;
@@ -98,14 +98,14 @@
             font-family: "SimSun", "Tahoma", sans-serif;
             font-size: 12px;
             cursor: pointer;
-            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1); /* XP按钮外阴影 */
         }
         .filters button.active, .filters button:hover {
             background-color: #E8E8E8;
             border-color: #A0A0A0;
         }
         .filters button:active {
-            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1); /* 按压内阴影 */
         }
 
         /* 搜索框 */
@@ -141,7 +141,7 @@
             font-size: 12px;
         }
 
-        /* 资源列表 - XP卡片风格 */
+        /* 5. 核心优化：XP风格资源卡片（还原系统控件质感） */
         .resource-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -149,12 +149,37 @@
             margin-bottom: 20px;
         }
         .resource-card {
-            background-color: #FFFFFF;
-            border: 1px solid #C0C0C0;
-            border-radius: 2px;
+            background-color: #FFFFFF; /* XP卡片白底 */
+            border: 1px solid #C0C0C0; /* XP标准灰边框 */
+            border-radius: 2px; /* 轻微圆角（XP控件统一特征） */
             padding: 12px;
+            font-size: 12px; /* XP控件默认字体大小 */
+            line-height: 1.5; /* 文字间距适配 */
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1); /* 卡片外阴影（XP窗口感） */
+            transition: all 0.1s ease; /* 交互过渡平滑 */
+            cursor: default;
+        }
+        /* 鼠标悬浮：模拟XP控件 hover 效果 */
+        .resource-card:hover {
+            background-color: #F8F8F8; /* 浅灰背景 */
+            border-color: #A0A0A0; /* 边框加深 */
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2); /* 阴影略重 */
+        }
+        /* 鼠标点击：模拟XP按钮按压效果 */
+        .resource-card:active {
+            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1); /* 内阴影 */
+            background-color: #E8E8E8;
+        }
+        /* 卡片内链接样式（适配XP系统链接） */
+        .resource-card .card-link {
+            color: #0000FF; /* XP经典蓝色链接 */
+            text-decoration: underline;
             font-size: 12px;
-            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            margin-top: 5px;
+        }
+        .resource-card .card-link:hover {
+            color: #0000CC; /*  hover 时加深 */
         }
 
         /* 分页按钮 */
@@ -168,13 +193,17 @@
             font-family: "SimSun", "Tahoma", sans-serif;
             font-size: 12px;
             cursor: pointer;
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
         }
         .pagination button.active {
             background-color: #E0E0E0;
             border-color: #A0A0A0;
         }
+        .pagination button:active {
+            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+        }
 
-        /* 5. XP窗口状态栏 */
+        /* 6. 窗口状态栏 */
         .xp-statusbar {
             height: 24px;
             background-color: #F0F0F0;
@@ -186,7 +215,7 @@
             color: #333333;
         }
 
-        /* 6. 微信提示样式 - 适配XP风格 */
+        /* 7. 微信提示样式 - 适配系统风格 */
         .weixin-tip {
             display: none;
             position: fixed;
@@ -201,7 +230,7 @@
         }
         .weixin-tip .top-bar-guidance {
             font-size: 14px;
-            color: #000; /* 改为黑色文字适配XP */
+            color: #000;
             height: 40%;
             line-height: 1.8;
             padding-left: 20px;
@@ -223,8 +252,11 @@
             text-decoration: none;
             box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
         }
+        .weixin-tip .app-download-btn:active {
+            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+        }
 
-        /* 7. 加载动画 - XP风格 */
+        /* 8. 加载动画 - 适配系统风格 */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -242,7 +274,7 @@
             width: 40px;
             height: 40px;
             border: 3px solid #C0C0C0;
-            border-top: 3px solid #0054E3; /* XP蓝色 */
+            border-top: 3px solid #0054E3; /* 系统蓝色 */
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 10px;
@@ -257,7 +289,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* 8. 响应式适配 - 保留XP风格 */
+        /* 9. 响应式适配 - 保留系统风格 */
         @media (max-width: 768px) {
             .window-content {
                 flex-direction: column;
@@ -313,19 +345,19 @@
     </style>
 </head>
 <body>
-    <!-- 微信提示界面（XP风格改造） -->
+    <!-- 微信提示界面 -->
     <div class="weixin-tip">
-        <div class="xp-titlebar">微信浏览器提示</div> <!-- 新增XP标题栏 -->
+        <div class="xp-titlebar">微信浏览器提示</div>
         <div class="top-bar-guidance">
             <p>点击右上角<img src="//gw.alicdn.com/tfs/TB1xwiUNpXXXXaIXXXXXXXXXXXX-55-55.png" class="icon-safari"/>在浏览器打开</p>
             <p>可以继续访问本站哦~</p>
         </div>
-        <a href="javascript:;" class="app-download-btn" id="BtnClick">打开浏览器</a> <!-- XP风格按钮 -->
+        <a href="javascript:;" class="app-download-btn" id="BtnClick">打开浏览器</a>
     </div>
 
-    <!-- 核心：XP窗口容器 -->
+    <!-- 核心：窗口容器 -->
     <div class="xp-window">
-        <!-- XP窗口标题栏 -->
+        <!-- 窗口标题栏 -->
         <div class="xp-titlebar">小学蒙古语资源库</div>
 
         <!-- 窗口内布局（竖版标题 + 内容） -->
@@ -348,7 +380,7 @@
                 </div>
                 
                 <div class="content">
-                    <!-- XP风格筛选按钮（恢复显示并改造） -->
+                    <!-- 筛选按钮 -->
                     <div class="filters">
                         <button onclick="filterSelection('all')" class="active">全部</button>
                         <button onclick="filterSelection('1')">短剧</button>
@@ -357,8 +389,8 @@
                         <button onclick="filterSelection('9')">软件</button>
                     </div>
 
-                    <!-- XP风格搜索框 -->
-                    <input type="text" id="search-input" placeholder="搜索资源（XP风格）" oninput="searchTable()">
+                    <!-- 搜索框（删除XP标识） -->
+                    <input type="text" id="search-input" placeholder="搜索资源" oninput="searchTable()">
 
                     <!-- 操作栏 -->
                     <div class="action-buttons">
@@ -374,17 +406,30 @@
                         </div>
                     </div>
 
-                    <!-- 资源列表（XP卡片风格，默认空，JS动态生成） -->
+                    <!-- 资源列表（XP风格卡片） -->
                     <div id="resource-list" class="resource-list">
-                        <!-- 示例卡片（JS生成前临时展示） -->
+                        <!-- 示例卡片 -->
                         <div class="resource-card">
                             <div>资源名称：蒙古语入门短剧</div>
                             <div>类型：短剧</div>
-                            <div>链接：点击查看</div>
+                            <div>更新时间：2025-01-01</div>
+                            <a href="javascript:;" class="card-link">点击查看</a>
+                        </div>
+                        <div class="resource-card">
+                            <div>资源名称：蒙古语基础词汇表</div>
+                            <div>类型：学习</div>
+                            <div>更新时间：2025-01-02</div>
+                            <a href="javascript:;" class="card-link">点击查看</a>
+                        </div>
+                        <div class="resource-card">
+                            <div>资源名称：蒙古语拼图游戏</div>
+                            <div>类型：游戏</div>
+                            <div>更新时间：2025-01-03</div>
+                            <a href="javascript:;" class="card-link">点击查看</a>
                         </div>
                     </div>
 
-                    <!-- XP风格分页 -->
+                    <!-- 分页 -->
                     <div class="pagination" id="pagination">
                         <button onclick="changePage(1)" class="active">1</button>
                         <button onclick="changePage(2)">2</button>
@@ -395,19 +440,19 @@
             </div>
         </div>
 
-        <!-- XP窗口状态栏 -->
+        <!-- 状态栏（删除XP标识） -->
         <div class="xp-statusbar">
             状态栏 - 小学蒙古语资源库 © 2025
         </div>
     </div>
 
     <script>
-        // 禁止页面滚动（保留原功能）
+        // 禁止页面滚动
         document.querySelector('body').addEventListener('touchmove', function (event) {
             event.preventDefault();
         });
 
-        // 设备判断（保留原功能）
+        // 设备判断
         window.mobileUtil = (function(win, doc) {
             var UA = navigator.userAgent,
             isAndroid = /android|adr/gi.test(UA),
@@ -424,9 +469,9 @@
             };
         })(window, document);
 
-        // 微信浏览器处理（保留原功能）
+        // 微信浏览器处理
         if(mobileUtil.isWeixin){
-            document.querySelector('.xp-window').style.display = 'none'; // 改为隐藏XP窗口
+            document.querySelector('.xp-window').style.display = 'none';
             document.querySelector('.weixin-tip').style.display = 'block';
             
             var url = window.location.href;
@@ -451,27 +496,26 @@
             }
         }
 
-        // 新增：分页切换示例函数（XP风格分页配套）
+        // 分页切换函数
         function changePage(pageNum) {
             const buttons = document.querySelectorAll('.pagination button');
             buttons.forEach(btn => btn.classList.remove('active'));
             buttons[pageNum - 1].classList.add('active');
-            // 实际项目中需添加“加载对应页数据”逻辑
+            // 实际项目中添加“加载对应页数据”逻辑
         }
 
-        // 新增：筛选示例函数（恢复筛选功能）
+        // 筛选函数
         function filterSelection(type) {
             const buttons = document.querySelectorAll('.filters button');
             buttons.forEach(btn => btn.classList.remove('active'));
-            // 给当前点击的按钮添加active类
             event.target.classList.add('active');
-            // 实际项目中需添加“筛选对应类型资源”逻辑
+            // 实际项目中添加“筛选对应类型资源”逻辑
         }
 
-        // 新增：搜索示例函数（配套搜索框）
+        // 搜索函数
         function searchTable() {
             const input = document.getElementById('search-input').value.toLowerCase();
-            // 实际项目中需添加“根据输入筛选资源”逻辑
+            // 实际项目中添加“根据输入筛选资源”逻辑
         }
     </script>
 </body>
