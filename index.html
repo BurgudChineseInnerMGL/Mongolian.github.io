@@ -134,6 +134,58 @@
             box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
         }
 
+        /* 赞助模块：图片跟随页面大小自适应 */
+        .sponsor-section {
+            margin-top: 30px;
+            padding: 15px;
+            border-top: 1px solid #C0C0C0;
+            border-bottom: 1px solid #C0C0C0;
+            background-color: #F8F8F8;
+        }
+
+        .sponsor-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #003366;
+            padding: 3px 8px;
+            background-color: #E0E0E0;
+            display: inline-block;
+            border: 1px solid #C0C0C0;
+        }
+
+        .sponsor-desc {
+            font-size: 13px;
+            line-height: 1.7;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+
+        /* 图片容器：灵活布局，适配页面宽度 */
+        .sponsor-imgs-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2vw; /* 间隙用视窗宽度单位，跟随页面缩放 */
+            align-items: center;
+            justify-content: flex-start;
+            max-width: 100%;
+            padding: 5px 0;
+        }
+
+        /* 核心：图片跟随页面大小自适应（删除所有固定尺寸） */
+        .sponsor-img {
+            /* 宽度：占父容器40%，两个图片+间隙刚好适配页面 */
+            width: 40%;
+            /* 高度：自动匹配宽度，保持图片比例 */
+            height: auto;
+            /* 强制保持图片完整性，不拉伸变形 */
+            object-fit: contain;
+            /* 限制最大宽度，避免超大屏幕下图片过大 */
+            max-width: 300px;
+            /* 静态图片指针样式 */
+            cursor: default;
+        }
+
         /* 底部状态栏 - XP风格 */
         .xp-statusbar {
             height: 24px;
@@ -146,7 +198,7 @@
             color: #333333;
         }
 
-        /* 新增：XP风格刷新提示框 */
+        /* XP风格刷新提示框 */
         .refresh-alert {
             position: fixed;
             top: 50%;
@@ -158,7 +210,7 @@
             background-color: #FFFFFF;
             box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
             z-index: 9999;
-            display: none; /* 默认隐藏 */
+            display: none;
         }
 
         .alert-titlebar {
@@ -209,7 +261,7 @@
             box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
         }
 
-        /* 平板设备（≤768px）适配 */
+        /* 平板设备（≤768px）适配：调整图片宽度 */
         @media (max-width: 768px) {
             .page-container {
                 flex-direction: column;
@@ -249,13 +301,14 @@
                 padding: 4px 10px;
             }
 
-            /* 提示框适配平板 */
-            .refresh-alert {
-                width: 320px;
+            /* 平板端图片：调整宽度，适配平板页面 */
+            .sponsor-img {
+                width: 45%;
+                max-width: 250px;
             }
         }
 
-        /* 手机设备（≤480px）适配 */
+        /* 手机设备（≤480px）适配：图片独占一行，跟随手机宽度 */
         @media (max-width: 480px) {
             body {
                 padding: 8px;
@@ -296,12 +349,28 @@
                 text-align: center;
             }
 
+            .sponsor-desc {
+                font-size: 12px;
+            }
+
+            /* 手机端图片：独占一行，宽度跟随手机页面 */
+            .sponsor-img {
+                width: 80%;
+                max-width: 200px;
+            }
+
+            /* 手机端图片容器：纵向排列，适配单列布局 */
+            .sponsor-imgs-container {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
             .xp-statusbar {
                 font-size: 10px;
                 height: 22px;
             }
 
-            /* 提示框适配手机 */
             .refresh-alert {
                 width: 280px;
             }
@@ -314,7 +383,7 @@
     </style>
 </head>
 <body>
-    <!-- 新增：刷新提示框 -->
+    <!-- 刷新提示框 -->
     <div class="refresh-alert" id="refreshAlert">
         <div class="alert-titlebar">提示信息</div>
         <div class="alert-content">
@@ -345,14 +414,13 @@
                 <div class="recommended-nav">
                     <div class="nav-title">推荐学习内容</div>
                     <ul class="nav-list">
-                        <!-- 为"小学蒙古语语文"添加链接 -->
                         <li class="nav-item"><a href=".\subpage\Primary_MGL\index.html">小学蒙古语语文</a></li>
                         <li class="nav-item">基础语法教程</li>
                         <li class="nav-item">学习问答社区</li>
                     </ul>
                 </div>
 				
-                <!--  -->
+                <!-- 个人笔记 -->
                 <div class="recommended-nav">
                     <div class="nav-title">个人笔记</div>
                     <ul class="nav-list">
@@ -360,13 +428,27 @@
                     </ul>
                 </div>
 				
-				<!--  -->
+				<!-- 杂碎知识分享 -->
 				<div class="recommended-nav">
-				    <div class="nav-title">杂碎的知识分享（本快只分享杂碎的知识，任何违法内容本网站一概拒绝！）</div>
+				    <div class="nav-title">杂碎的知识分享（本块只分享杂碎的知识，任何违法内容本网站一概拒绝！）</div>
 				    <ul class="nav-list">
 				        <li class="nav-item"><a href=".\subpage\unknown\index.html">杂碎的知识（来源网友）</a></li>
 				    </ul>
 				</div>
+
+                <!-- 赞助模块：图片跟随页面大小自适应 -->
+                <div class="sponsor-section">
+                    <div class="sponsor-title">支持与赞助</div>
+                    <div class="sponsor-desc">
+                        若您觉得本站内容对您有帮助，欢迎通过以下方式支持我们！您的每一份支持，都是我们持续更新蒙古语学习资源的动力。
+                    </div>
+                    <div class="sponsor-imgs-container">
+                        <!-- 支付宝自适应图片 -->
+                        <img src="./zfb.jpg" alt="支付宝赞助" class="sponsor-img">
+                        <!-- 微信自适应图片 -->
+                        <img src="./wx.jpg" alt="微信赞助" class="sponsor-img">
+                    </div>
+                </div>
 				
             </div>
         </div>
@@ -376,9 +458,8 @@
         </div>
     </div>
 
-    <!-- 新增：提示框控制脚本 -->
+    <!-- 提示框控制脚本 -->
     <script>
-        // 页面加载完成后显示提示框
         window.onload = function() {
             const refreshAlert = document.getElementById('refreshAlert');
             const doRefreshBtn = document.getElementById('doRefresh');
@@ -387,14 +468,23 @@
             // 显示提示框
             refreshAlert.style.display = 'block';
 
-            // 立即刷新按钮事件
+            // 立即刷新
             doRefreshBtn.addEventListener('click', function() {
-                window.location.reload(true); // 强制刷新，忽略缓存
+                window.location.reload(true);
             });
 
-            // 关闭提示框按钮事件
+            // 关闭提示框
             closeAlertBtn.addEventListener('click', function() {
                 refreshAlert.style.display = 'none';
+            });
+
+            // 图片加载失败时：备用文本跟随页面大小
+            const sponsorImgs = document.querySelectorAll('.sponsor-img');
+            sponsorImgs.forEach(img => {
+                img.onerror = function() {
+                    // 备用文本宽度跟随图片容器，高度自动
+                    this.outerHTML = `<div style="font-size:1.2vw; color:#333; padding:1vw; border:1px dashed #C0C0C0; width: ${this.style.width}; max-width: ${this.style.maxWidth};">${this.alt}</div>`;
+                };
             });
         };
     </script>
