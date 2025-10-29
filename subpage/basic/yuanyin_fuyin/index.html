@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的扫描笔记本 - 毛玻璃风格</title>
+    <style>
+        /* 毛玻璃风格基础样式 */
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-bg-dark: rgba(240, 245, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            --accent-color: #1a73e8;
+            --text-color: #202124;
+            --border-radius: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+                              linear-gradient(to bottom, #f0f7ff, #e6f0ff);
+            background-attachment: fixed;
+            color: var(--text-color);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* 毛玻璃效果通用类 */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .glass-dark {
+            background: var(--glass-bg-dark);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .main-window {
+            max-width: 1400px;
+            margin: 0 auto;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        /* 标题栏样式 */
+        .window-header {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .window-title {
+            font-weight: 500;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .window-title::before {
+            content: "📁";
+            font-size: 18px;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .control-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            color: var(--text-color);
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.6);
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.05);
+        }
+
+        /* 工具栏 */
+        .toolbar {
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .tool-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tool-btn {
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: "Segoe UI", sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .tool-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-1px);
+        }
+
+        .separator {
+            width: 1px;
+            height: 28px;
+            background-color: rgba(0, 0, 0, 0.1);
+            margin: 0 5px;
+        }
+
+        .search-box {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            width: 220px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        /* 主内容区 */
+        .window-content {
+            display: flex;
+            min-height: 600px;
+        }
+
+        /* 目录面板 */
+        .toc-panel {
+            width: 280px;
+            border-right: 1px solid var(--glass-border);
+            padding: 10px 0;
+            overflow-y: auto;
+            max-height: calc(100vh - 150px);
+        }
+
+        .toc-header {
+            padding: 12px 20px;
+            font-weight: 500;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 14px;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            padding: 8px 20px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .toc-item:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .toc-item.active {
+            background: rgba(26, 115, 232, 0.15);
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        /* 图片画廊 */
+        .gallery-container {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            max-height: calc(100vh - 150px);
+        }
+
+        .gallery-header {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .gallery-header h1 {
+            font-size: 24px;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+
+        .gallery-header p {
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 14px;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .image-item {
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .image-item img {
+            max-width: 100%;
+            max-height: 180px;
+            display: block;
+            margin: 0 auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-caption {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 图片查看器模态框 - 无暗化效果 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .modal-header {
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .modal-body {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: auto;
+        }
+
+        .modal-body img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 6px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-footer {
+            padding: 12px 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .modal-btn {
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .modal-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-1px);
+        }
+
+        .modal-btn.primary {
+            background: var(--accent-color);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-btn.primary:hover {
+            background: #0d66d0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #333;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .close-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        /* 编辑模态框 */
+        .edit-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px;
+            width: 500px;
+            max-width: 90%;
+            z-index: 1010;
+            display: none;
+            animation: modalFadeIn 0.3s;
+        }
+
+        .edit-modal.active {
+            display: block;
+        }
+
+        .edit-header {
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .edit-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 6px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .edit-footer {
+            padding: 12px 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translate(-50%, -55%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .window-content {
+                flex-direction: column;
+            }
+
+            .toc-panel {
+                width: 100%;
+                max-height: 300px;
+                border-right: none;
+                border-bottom: 1px solid var(--glass-border);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .toolbar {
+                flex-wrap: wrap;
+            }
+
+            .search-box {
+                margin-left: 0;
+                width: 100%;
+                order: 100;
+                margin-top: 10px;
+            }
+
+            .search-box input {
+                width: 100%;
+            }
+
+            .image-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .modal-footer {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-window glass">
+        <!-- 窗口标题栏 -->
+        <div class="window-header">
+            <div class="window-title">我的扫描笔记本</div>
+            <div class="window-controls">
+                <button class="control-btn" title="最小化">—</button>
+                <button class="control-btn" title="最大化">□</button>
+                <!-- 为关闭按钮添加ID，用于绑定跳转事件 -->
+                <button class="control-btn" id="window-close-btn" title="关闭">×</button>
+            </div>
+        </div>
+
+        <!-- 工具栏 -->
+        <div class="toolbar glass-dark">
+            <div class="tool-group">
+                <button class="tool-btn" id="refresh-btn">
+                    <span>↺</span> 刷新
+                </button>
+                <button class="tool-btn" id="toc-toggle">
+                    <span>≡</span> 目录
+                </button>
+            </div>
+            <div class="separator"></div>
+            <div class="tool-group">
+                <button class="tool-btn" id="prev-btn">
+                    <span>←</span> 上一页
+                </button>
+                <button class="tool-btn" id="next-btn">
+                    <span>→</span> 下一页
+                </button>
+            </div>
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" id="search-input" placeholder="输入关键词搜索...">
+            </div>
+        </div>
+
+        <!-- 主内容区 -->
+        <div class="window-content glass-dark">
+            <!-- 目录面板 -->
+            <div class="toc-panel" id="toc-panel">
+                <div class="toc-header">笔记目录</div>
+                <ul class="toc-list" id="toc-list">
+                    <!-- 目录将通过JavaScript从toc.json加载 -->
+                    <li class="toc-item">加载目录中...</li>
+                </ul>
+            </div>
+
+            <!-- 图片画廊 -->
+            <div class="gallery-container">
+                <div class="gallery-header">
+                    <h1>我的扫描笔记本</h1>
+                    <p>共 <span id="total-count">0</span> 张扫描笔记</p>
+                </div>
+                <div id="imageContainer" class="image-gallery">
+                    <!-- 图片会由JavaScript动态加载到这里 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 图片查看器模态框 -->
+    <div class="modal" id="image-modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title">查看图片</div>
+                <button class="close-btn" id="modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <img id="modal-image" src="" alt="图片预览">
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn" id="edit-image">编辑信息</button>
+                <button class="modal-btn primary" id="close-modal">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑模态框 -->
+    <div class="edit-modal glass">
+        <div class="edit-header">
+            <div>编辑图片信息</div>
+            <button class="close-btn" id="edit-close">×</button>
+        </div>
+        <div class="edit-body">
+            <div class="form-group">
+                <label for="image-title">标题</label>
+                <input type="text" id="image-title" placeholder="输入图片标题">
+            </div>
+            <div class="form-group">
+                <label for="image-desc">描述</label>
+                <textarea id="image-desc" placeholder="输入图片描述"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image-tags">标签</label>
+                <input type="text" id="image-tags" placeholder="输入标签，用逗号分隔">
+            </div>
+        </div>
+        <div class="edit-footer">
+            <button class="modal-btn" id="cancel-edit">取消</button>
+            <button class="modal-btn primary" id="save-edit">保存</button>
+        </div>
+    </div>
+
+    <script>
+        // 图片数据和当前状态
+        let imageList = [];
+        let currentIndex = 0;
+        let tocData = [];
+
+        // DOM元素
+        const imageContainer = document.getElementById('imageContainer');
+        const totalCountElement = document.getElementById('total-count');
+        const imageModal = document.getElementById('image-modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalTitle = document.getElementById('modal-title');
+        const editModal = document.getElementById('edit-modal');
+        const tocList = document.getElementById('toc-list');
+        const tocPanel = document.getElementById('toc-panel');
+        const searchInput = document.getElementById('search-input');
+        // 获取窗口关闭按钮
+        const windowCloseBtn = document.getElementById('window-close-btn');
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 生成图片列表
+            generateImageList();
+            
+            // 加载目录
+            loadToc();
+            
+            // 绑定事件
+            bindEvents();
+        });
+
+        // 生成图片列表
+        function generateImageList() {
+            imageList = [];
+            for (let i = 1; i <= 112; i++) {
+                imageList.push({
+                    path: `scans/scan (${i}).jpg`,
+                    id: i,
+                    title: `扫描笔记 ${i}`,
+                    description: `这是第 ${i} 页扫描笔记`,
+                    tags: []
+                });
+            }
+            
+            // 渲染图片画廊
+            renderGallery();
+            
+            // 更新总数
+            totalCountElement.textContent = imageList.length;
+        }
+
+        // 渲染图片画廊
+        function renderGallery(filteredList = null) {
+            const imagesToRender = filteredList || imageList;
+            imageContainer.innerHTML = '';
+            
+            if (imagesToRender.length === 0) {
+                imageContainer.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 50px;">未找到匹配的图片</div>';
+                return;
+            }
+            
+            imagesToRender.forEach((image, index) => {
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image-item glass';
+                imageItem.dataset.index = imageList.indexOf(image);
+                
+                const img = document.createElement('img');
+                img.src = image.path;
+                img.alt = image.title;
+                img.loading = 'lazy';
+                
+                const caption = document.createElement('div');
+                caption.className = 'image-caption';
+                caption.textContent = image.title;
+                
+                imageItem.appendChild(img);
+                imageItem.appendChild(caption);
+                
+                // 点击查看图片
+                imageItem.addEventListener('click', () => {
+                    openImageViewer(imageList.indexOf(image));
+                });
+                
+                imageContainer.appendChild(imageItem);
+            });
+        }
+
+        // 打开图片查看器
+        function openImageViewer(index) {
+            if (index < 0 || index >= imageList.length) return;
+            
+            currentIndex = index;
+            const image = imageList[index];
+            
+            modalImage.src = image.path;
+            modalTitle.textContent = image.title;
+            
+            imageModal.classList.add('active');
+            
+            // 更新目录选中状态
+            updateTocActiveState(image.id);
+        }
+
+        // 关闭图片查看器
+        function closeImageViewer() {
+            imageModal.classList.remove('active');
+        }
+
+        // 上一张图片
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + imageList.length) % imageList.length;
+            openImageViewer(currentIndex);
+        }
+
+        // 下一张图片
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % imageList.length;
+            openImageViewer(currentIndex);
+        }
+
+        // 打开编辑模态框
+        function openEditModal() {
+            const image = imageList[currentIndex];
+            
+            document.getElementById('image-title').value = image.title || '';
+            document.getElementById('image-desc').value = image.description || '';
+            document.getElementById('image-tags').value = image.tags.join(', ') || '';
+            
+            editModal.classList.add('active');
+        }
+
+        // 关闭编辑模态框
+        function closeEditModal() {
+            editModal.classList.remove('active');
+        }
+
+        // 保存编辑
+        function saveEdit() {
+            const image = imageList[currentIndex];
+            
+            image.title = document.getElementById('image-title').value;
+            image.description = document.getElementById('image-desc').value;
+            image.tags = document.getElementById('image-tags').value
+                .split(',')
+                .map(tag => tag.trim())
+                .filter(tag => tag);
+            
+            // 更新模态框标题
+            modalTitle.textContent = image.title;
+            
+            // 更新画廊中的标题
+            const galleryItems = document.querySelectorAll('.image-item');
+            galleryItems.forEach(item => {
+                if (parseInt(item.dataset.index) === currentIndex) {
+                    item.querySelector('.image-caption').textContent = image.title;
+                }
+            });
+            
+            // 更新目录
+            updateTocItem(image.id, image.title);
+            
+            closeEditModal();
+        }
+
+        // 加载目录
+        function loadToc() {
+            // 尝试从toc.json加载目录
+            fetch('toc.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('目录文件不存在');
+                    return response.json();
+                })
+                .then(data => {
+                    tocData = data;
+                    renderToc();
+                })
+                .catch(() => {
+                    // 如果没有目录文件，生成默认目录
+                    tocData = imageList.map(image => ({
+                        id: image.id,
+                        title: image.title,
+                        page: image.id
+                    }));
+                    renderToc();
+                });
+        }
+
+        // 渲染目录
+        function renderToc() {
+            tocList.innerHTML = '';
+            
+            tocData.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'toc-item';
+                li.dataset.id = item.id;
+                li.innerHTML = `<strong>${item.page}</strong>. ${item.title}`;
+                
+                li.addEventListener('click', () => {
+                    // 找到对应的图片并打开
+                    const imageIndex = imageList.findIndex(img => img.id === item.id);
+                    if (imageIndex !== -1) {
+                        openImageViewer(imageIndex);
+                    }
+                });
+                
+                tocList.appendChild(li);
+            });
+        }
+
+        // 更新目录选中状态
+        function updateTocActiveState(id) {
+            document.querySelectorAll('.toc-item').forEach(item => {
+                if (parseInt(item.dataset.id) === id) {
+                    item.classList.add('active');
+                    // 滚动到当前项
+                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // 更新目录项
+        function updateTocItem(id, newTitle) {
+            const tocItem = tocData.find(item => item.id === id);
+            if (tocItem) {
+                tocItem.title = newTitle;
+                renderToc();
+                updateTocActiveState(id);
+            }
+        }
+
+        // 切换目录显示
+        function toggleToc() {
+            tocPanel.style.display = tocPanel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // 搜索功能
+        function searchImages(query) {
+            if (!query.trim()) {
+                renderGallery();
+                return;
+            }
+            
+            const filtered = imageList.filter(image => {
+                const searchText = query.toLowerCase();
+                return image.title.toLowerCase().includes(searchText) ||
+                       (image.description && image.description.toLowerCase().includes(searchText)) ||
+                       image.tags.some(tag => tag.toLowerCase().includes(searchText));
+            });
+            
+            renderGallery(filtered);
+        }
+
+        // 绑定事件
+        function bindEvents() {
+            // 窗口关闭按钮 - 跳转到../../index.html
+            windowCloseBtn.addEventListener('click', () => {
+                window.location.href = '../../../index.html';
+            });
+
+            // 模态框控制（仅关闭模态框，不跳转）
+            document.getElementById('modal-close').addEventListener('click', closeImageViewer);
+            document.getElementById('close-modal').addEventListener('click', closeImageViewer);
+            
+            // 图片导航
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                if (imageList.length > 0) {
+                    const firstVisible = document.querySelector('.image-item');
+                    if (firstVisible) {
+                        const current = parseInt(firstVisible.dataset.index);
+                        const prev = Math.max(0, current - 6);
+                        scrollToImage(prev);
+                    }
+                }
+            });
+            
+            document.getElementById('next-btn').addEventListener('click', () => {
+                if (imageList.length > 0) {
+                    const lastVisible = document.querySelectorAll('.image-item')[document.querySelectorAll('.image-item').length - 1];
+                    if (lastVisible) {
+                        const current = parseInt(lastVisible.dataset.index);
+                        const next = Math.min(imageList.length - 1, current + 6);
+                        scrollToImage(next);
+                    }
+                }
+            });
+            
+            // 图片操作
+            document.getElementById('edit-image').addEventListener('click', openEditModal);
+            
+            // 编辑模态框控制
+            document.getElementById('edit-close').addEventListener('click', closeEditModal);
+            document.getElementById('cancel-edit').addEventListener('click', closeEditModal);
+            document.getElementById('save-edit').addEventListener('click', saveEdit);
+            
+            // 目录控制
+            document.getElementById('toc-toggle').addEventListener('click', toggleToc);
+            
+            // 刷新按钮
+            document.getElementById('refresh-btn').addEventListener('click', () => {
+                renderGallery();
+                loadToc();
+            });
+            
+            // 搜索功能
+            searchInput.addEventListener('input', (e) => {
+                searchImages(e.target.value);
+            });
+            
+            // 键盘导航
+            document.addEventListener('keydown', (e) => {
+                if (!imageModal.classList.contains('active')) return;
+                
+                switch(e.key) {
+                    case 'ArrowLeft':
+                        prevImage();
+                        e.preventDefault();
+                        break;
+                    case 'ArrowRight':
+                        nextImage();
+                        e.preventDefault();
+                        break;
+                    case 'Escape':
+                        closeImageViewer();
+                        e.preventDefault();
+                        break;
+                }
+            });
+        }
+
+        // 滚动到指定图片
+        function scrollToImage(index) {
+            const imageItems = document.querySelectorAll('.image-item');
+            if (imageItems[index]) {
+                imageItems[index].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+    </script>
+</body>
+</html>
