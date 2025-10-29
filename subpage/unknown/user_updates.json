@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp": "2023-10-01 14:30:22",
+    "name": "张三",
+    "content": "CSS Grid布局非常强大"
+  },
+  {
+    "timestamp": "2023-10-02 09:15:47",
+    "name": "李四",
+    "content": "JavaScript闭包是一个重要概念"
+  }
+]
