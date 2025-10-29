@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta content="false" name="twcClient" id="twcClient"/>
+    <title>小学蒙古语资源库</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 1. 全局样式 - 还原Windows XP系统质感 */
+        body {
+            margin: 0;
+            padding: 20px; /* 桌面边距感 */
+            background-color: #005EBB; /* XP经典桌面蓝 */
+            font-family: "SimSun", "Tahoma", sans-serif; /* XP默认字体 */
+            color: #000000;
+        }
+
+        /* 核心：窗口容器 - 还原XP窗口样式 */
+        .xp-window {
+            width: calc(100% - 40px);
+            min-height: calc(100vh - 40px);
+            border: 1px solid #003C74; /* 窗口外边框（深灰蓝） */
+            background-color: #FFFFFF;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); /* XP窗口阴影 */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 窗口标题栏 - XP标志性蓝白渐变 */
+        .xp-titlebar {
+            height: 28px;
+            background: linear-gradient(to right, #0054E3, #0078D7);
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            color: #FFFFFF;
+            font-weight: bold;
+            font-size: 12px;
+            border-bottom: 1px solid #003C74;
+        }
+
+        /* 2. 窗口内布局（左侧竖版标题 + 右侧内容） */
+        .window-content {
+            display: flex;
+            flex: 1; /* 占满窗口剩余高度 */
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        /* 左侧竖版标题栏 - 适配系统风格 */
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* 竖排文字间距 */
+            margin-right: 40px;
+            padding: 10px;
+            border-right: 1px solid #C0C0C0; /* XP灰色分隔线 */
+            align-items: center;
+        }
+
+        /* 竖版标题 - 保留核心样式+系统字体 */
+        .vertical-text {
+            writing-mode: vertical-lr; /* 竖排从左到右 */
+            font-size: 28px; /* 适配窗口比例 */
+            line-height: 2.0;
+            margin: 0;
+            color: #003366; /* XP经典深蓝色文字 */
+            font-family: "SimSun", serif;
+        }
+
+        /* 3. 右侧内容区 - XP文档风格 */
+        .main-content {
+            flex: 1;
+            padding: 15px;
+            background-color: #F0F0F0; /* XP内容区浅灰背景 */
+            border: 1px solid #C0C0C0; /* XP控件边框 */
+            border-radius: 2px; /* 轻微圆角（XP控件特征） */
+            overflow-y: auto;
+        }
+
+        /* 4. 系统风格控件样式 */
+        /* 筛选按钮 */
+        .filters button {
+            height: 24px;
+            padding: 0 12px;
+            margin-right: 8px;
+            background-color: #F0F0F0;
+            border: 1px solid #C0C0C0;
+            border-radius: 2px;
+            font-family: "SimSun", "Tahoma", sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1); /* XP按钮外阴影 */
+        }
+        .filters button.active, .filters button:hover {
+            background-color: #E8E8E8;
+            border-color: #A0A0A0;
+        }
+        .filters button:active {
+            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1); /* 按压内阴影 */
+        }
+        /* 新增：返回按钮深色样式 */
+        .back-btn {
+            background-color: #D0D0D0; /* 加深后的背景色 */
+            border-color: #A0A0A0; /* 匹配深色的边框色 */
+        }
+        .back-btn:hover {
+            background-color: #C0C0C0; /* hover时进一步加深 */
+            border-color: #808080;
+        }
+        .back-btn:active {
+            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1); /* 保留按压内阴影 */
+        }
+
+        /* 搜索框 */
+        #search-input {
+            width: 100%;
+            height: 24px;
+            padding: 0 6px;
+            margin-bottom: 15px;
+            background-color: #FFFFFF;
+            border: 1px solid #C0C0C0;
+            border-radius: 2px;
+            font-family: "SimSun", "Tahoma", sans-serif;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+
+        /* 操作栏 */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: #333333;
+        }
+        .action-buttons button {
+            height: 24px;
+            padding: 0 12px;
+            background-color: #F0F0F0;
+            border: 1px solid #C0C0C0;
+            border-radius: 2px;
+            font-family: "SimSun", "Tahoma", sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+        }
+        .action-buttons button:active {
+            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+        }
+        .items-per-page select {
+            height: 24px;
+            padding: 0 6px;
+            background-color: #FFFFFF;
+            border: 1px solid #C0C0C0;
+            border-radius: 2px;
+            font-family: "SimSun", "Tahoma", sans-serif;
+            font-size: 12px;
+        }
+
+        /* 5. 列表样式（一排一项） */
+        .resource-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .resource-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #FFFFFF;
+            border: 1px solid #C0C0C0;
+            border-radius: 2px;
+            font-size: 12px;
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+            transition: all 0.1s ease;
+        }
+        .resource-item:hover {
+            background-color: #F8F8F8;
+            border-color: #A0A0A0;
+        }
+        .resource-item:active {
+            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+            background-color: #E8E8E8;
+        }
+        .resource-type {
+            min-width: 60px;
+            padding: 2px 8px;
+            margin-right: 15px;
+            background-color: #E0E0E0;
+            border: 1px solid #C0C0C0;
+            border-radius: 2px;
+            text-align: center;
+            font-size: 11px;
+        }
+        .resource-info {
+            flex: 1;
+        }
+        .resource-title {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        .resource-desc {
+            color: #666;
+            font-size: 11px;
+        }
+        .resource-link {
+            color: #0000FF;
+            text-decoration: underline;
+            margin-left: 15px;
+            white-space: nowrap;
+        }
+        .resource-link:hover {
+            color: #0000CC;
+        }
+
+        /* 分页按钮 */
+        .pagination button {
+            height: 24px;
+            padding: 0 10px;
+            margin-right: 5px;
+            background-color: #F0F0F0;
+            border: 1px solid #C0C0C0;
+            border-radius: 2px;
+            font-family: "SimSun", "Tahoma", sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+        }
+        .pagination button.active {
+            background-color: #E0E0E0;
+            border-color: #A0A0A0;
+        }
+        .pagination button:active {
+            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        /* 6. 窗口状态栏 */
+        .xp-statusbar {
+            height: 24px;
+            background-color: #F0F0F0;
+            border-top: 1px solid #C0C0C0;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            font-size: 11px;
+            color: #333333;
+        }
+
+        /* 7. 微信提示样式 - 适配系统风格 */
+        .weixin-tip {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 1999;
+            border: 1px solid #003C74;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
+        }
+        .weixin-tip .top-bar-guidance {
+            font-size: 14px;
+            color: #000;
+            height: 40%;
+            line-height: 1.8;
+            padding-left: 20px;
+            padding-top: 40px;
+            background: url(//gw.alicdn.com/tfs/TB1eSZaNFXXXXb.XXXXXXXXXXXX-750-234.png) center top/contain no-repeat;
+        }
+        .weixin-tip .app-download-btn {
+            display: block;
+            width: 214px;
+            height: 28px;
+            line-height: 28px;
+            margin: 20px auto 0 auto;
+            text-align: center;
+            font-size: 14px;
+            color: #000;
+            border: 1px solid #C0C0C0;
+            border-radius: 2px;
+            background-color: #F0F0F0;
+            text-decoration: none;
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+        }
+        .weixin-tip .app-download-btn:active {
+            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        /* 8. 加载动画 - 适配系统风格 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #C0C0C0;
+            border-top: 3px solid #0054E3; /* 系统蓝色 */
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
+        }
+        #loading-text {
+            font-size: 14px;
+            color: #333;
+            font-family: "SimSun", "Tahoma", sans-serif;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 9. 响应式适配 - 保留系统风格 */
+        @media (max-width: 768px) {
+            .window-content {
+                flex-direction: column;
+                padding: 10px;
+            }
+            .left-column {
+                flex-direction: row;
+                gap: 15px;
+                margin-right: 0;
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+                border-right: none;
+                border-bottom: 1px solid #C0C0C0;
+                justify-content: center;
+                height: auto;
+            }
+            .vertical-text {
+                font-size: 22px;
+                line-height: 1.8;
+            }
+            .main-content {
+                padding: 10px;
+            }
+            .resource-item {
+                flex-wrap: wrap;
+            }
+            .resource-link {
+                margin-left: 0;
+                margin-top: 8px;
+                width: 100%;
+                text-align: right;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .xp-window {
+                width: calc(100% - 20px);
+                min-height: calc(100vh - 20px);
+            }
+            .left-column {
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 5px 0;
+            }
+            .vertical-text {
+                font-size: 18px;
+                line-height: 1.6;
+                margin: 3px 0;
+            }
+            .action-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            .resource-type {
+                min-width: auto;
+                margin-right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 微信提示界面 -->
+    <div class="weixin-tip">
+        <div class="xp-titlebar">微信浏览器提示</div>
+        <div class="top-bar-guidance">
+            <p>点击右上角<img src="//gw.alicdn.com/tfs/TB1xwiUNpXXXXaIXXXXXXXXXXXX-55-55.png" class="icon-safari"/>在浏览器打开</p>
+            <p>可以继续访问本站哦~</p>
+        </div>
+        <a href="javascript:;" class="app-download-btn" id="BtnClick">打开浏览器</a>
+    </div>
+
+    <!-- 核心：窗口容器 -->
+    <div class="xp-window">
+        <!-- 窗口标题栏 -->
+        <div class="xp-titlebar">小学蒙古语资源库</div>
+
+        <!-- 窗口内布局（竖版标题 + 内容） -->
+        <div class="window-content">
+            <!-- 左侧竖版标题栏 -->
+            <div class="left-column">
+                <p class="vertical-text">ᠪᠠᠭ᠎ᠠ ᠰᠤᠷᠭᠠᠭᠤᠯᠢ ᠶᠢᠨ</p>
+                <p class="vertical-text">ᠮᠣᠩᠭᠣᠯ ᠬᠡᠯᠡᠨ ᠦ ᠡᠬᠢ</p>
+                <p class="vertical-text">ᠦᠦᠰᠪᠦᠷᠢ</p>
+            </div>
+
+            <!-- 右侧主内容区 -->
+            <div class="main-content">
+                <div class="wrapper">
+                    <div id="bubbles-container"></div>
+                </div>
+                <div id="loading-overlay" class="loading-overlay">
+                    <div class="loading-spinner"></div>
+                    <div id="loading-text">正在加载数据...</div>
+                </div>
+                
+                <div class="content">
+                    <!-- 筛选按钮 -->
+
+                    <!-- 搜索框 -->
+                    <input type="text" id="search-input" placeholder="搜索资源" oninput="searchTable()">
+
+                    <!-- 操作栏 -->
+                    <div class="action-buttons">
+                        <button class="back-btn" onclick="window.location.href='../../index.html'">返回首页</button>
+                        <span id="data-count">已加载数据：20</span>
+                        <div class="items-per-page">
+                            <label for="items-per-page-select">每页显示:</label>
+                            <select id="items-per-page-select" onchange="changeItemsPerPage()">
+                                <option value="6">6</option>
+                                <option value="15" selected>15</option>
+                                <option value="21">21</option>
+                                <option value="30">30</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- 资源列表（一排一项） -->
+                    <div id="resource-list" class="resource-list">
+                        <!-- 示例资源项 -->
+                        
+                        
+          
+                        
+                        
+                        
+                        
+                        
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="pagination" id="pagination">
+                        <button onclick="changePage(1)" class="active">1</button>
+                        <button onclick="changePage(2)">2</button>
+                        <button onclick="changePage(3)">3</button>
+                    </div>
+                </div>
+                <script src="scripts.js"></script>
+            </div>
+        </div>
+
+        <!-- 状态栏 -->
+        <div class="xp-statusbar">
+            状态栏 - 小学蒙古语资源库 © 2025
+        </div>
+    </div>
+
+    <script>
+        // 禁止页面滚动
+        document.querySelector('body').addEventListener('touchmove', function (event) {
+            event.preventDefault();
+        });
+
+        // 设备判断
+        window.mobileUtil = (function(win, doc) {
+            var UA = navigator.userAgent,
+            isAndroid = /android|adr/gi.test(UA),
+            isIOS = /iphone|ipod|ipad/gi.test(UA) && !isAndroid,
+            isBlackBerry = /BlackBerry/i.test(UA),
+            isWindowPhone = /IEMobile/i.test(UA),
+            isMobile = isAndroid || isIOS || isBlackBerry || isWindowPhone;
+            return {
+                isAndroid: isAndroid,
+                isIOS: isIOS,
+                isMobile: isMobile,
+                isWeixin: /MicroMessenger/gi.test(UA),
+                isQQ: /QQ/gi.test(UA)
+            };
+        })(window, document);
+
+        // 微信浏览器处理
+        if(mobileUtil.isWeixin){
+            document.querySelector('.xp-window').style.display = 'none';
+            document.querySelector('.weixin-tip').style.display = 'block';
+            
+            var url = window.location.href;
+            
+            if(mobileUtil.isIOS){
+                document.getElementById('BtnClick').onclick = function() {
+                    window.location.href = "https://t.asczwa.com/taobao?backurl=" + encodeURIComponent(url);
+                };
+            } else if(mobileUtil.isAndroid){
+                document.getElementById('BtnClick').onclick = function() {
+                    var link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'weixin.doc';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    setTimeout(function() {
+                        window.location.href = url;
+                    }, 500);
+                };
+            }
+        }
+
+        // 页面加载完成后隐藏加载动画
+        window.onload = function() {
+            setTimeout(function() {
+                document.getElementById('loading-overlay').style.display = 'none';
+            }, 800);
+        };
+
+        // 分页切换函数
+        function changePage(pageNum) {
+            const buttons = document.querySelectorAll('.pagination button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            buttons[pageNum - 1].classList.add('active');
+            // 实际项目中添加“加载对应页数据”逻辑
+        }
+
+        // 筛选函数
+        function filterSelection(type) {
+            const buttons = document.querySelectorAll('.filters button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const items = document.querySelectorAll('.resource-item');
+            items.forEach(item => {
+                if (type === 'all' || item.getAttribute('data-type') === type) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // 搜索函数
+        function searchTable() {
+            const input = document.getElementById('search-input').value.toLowerCase();
+            const items = document.querySelectorAll('.resource-item');
+            
+            items.forEach(item => {
+                const title = item.querySelector('.resource-title').textContent.toLowerCase();
+                const desc = item.querySelector('.resource-desc').textContent.toLowerCase();
+                
+                if (title.includes(input) || desc.includes(input)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // 改变每页显示数量
+        function changeItemsPerPage() {
+            const count = document.getElementById('items-per-page-select').value;
+            // 实际项目中添加“改变每页显示数量”逻辑
+            console.log('每页显示:', count);
+        }
+    </script>
+</body>
+</html>
