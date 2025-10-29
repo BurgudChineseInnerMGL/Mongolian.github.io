@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 关键：开启响应式适配 -->
-    <title>知识库表格 - 90年代风格</title>
+    <title>杂碎知识</title> <!-- 标题修改：原“知识库表格”改为“杂碎知识” -->
     <style>
         /* 90年代风格CSS */
         body {
@@ -22,6 +22,56 @@
             border: 2px outset #c0c0c0;
             padding: 10px;
             box-sizing: border-box;
+        }
+
+        /* 新增：刷新提示框样式（90年代风格） */
+        .refresh-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 380px;
+            max-width: 90%;
+            border: 1px solid #003C74;
+            background-color: #fff;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+            z-index: 9999; /* 确保在最上层，不被遮挡 */
+            display: none; /* 默认隐藏 */
+        }
+        .alert-titlebar {
+            height: 24px;
+            background: linear-gradient(to right, #0054E3, #0078D7); /* 90年代经典蓝渐变 */
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .alert-content {
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .alert-btn-group {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 15px;
+            border-top: 1px solid #c0c0c0;
+            background-color: #e8e8e8;
+        }
+        .alert-btn {
+            background-color: #c0c0c0;
+            border: 2px outset #c0c0c0;
+            padding: 4px 12px;
+            margin-left: 8px;
+            cursor: pointer;
+            font-family: "Times New Roman", serif;
+            font-size: 13px;
+        }
+        .alert-btn:active {
+            border: 2px inset #c0c0c0; /* 点击凹陷效果，贴合90年代风格 */
         }
 
         /* 顶部操作区：返回按钮 + 搜索框 横向布局 */
@@ -189,7 +239,7 @@
                 gap: 8px;
             }
 
-            .back-btn, .search-btn {
+            .back-btn, .search-btn, .alert-btn {
                 padding: 4px 8px;
                 font-size: 13px;
             }
@@ -211,6 +261,11 @@
             .github-info {
                 padding: 8px;
                 font-size: 13px;
+            }
+
+            .alert-content {
+                font-size: 13px;
+                padding: 12px;
             }
         }
 
@@ -253,6 +308,18 @@
     </style>
 </head>
 <body>
+    <!-- 新增：刷新提示框 -->
+    <div class="refresh-alert" id="refreshAlert">
+        <div class="alert-titlebar">提示信息</div>
+        <div class="alert-content">
+            请刷新网页以获得最新的网页，否则在某些设备上只有缓存的网页
+        </div>
+        <div class="alert-btn-group">
+            <button class="alert-btn" id="doRefresh">立即刷新</button>
+            <button class="alert-btn" id="closeAlert">稍后再说</button>
+        </div>
+    </div>
+
     <div class="container">
         <!-- 顶部操作区：返回按钮 + 搜索框 -->
         <div class="top-actions">
@@ -268,7 +335,7 @@
         <!-- 搜索结果提示 -->
         <div id="searchResult" class="search-result" style="display: none;"></div>
         
-        <h1>我的知识库表格</h1>
+        <h1>杂碎知识</h1> <!-- 标题修改：原“我的知识库表格”改为“杂碎知识” -->
         
         <!-- 数据加载状态 -->
         <div id="status" class="status">
@@ -308,6 +375,28 @@
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
         const searchResult = document.getElementById('searchResult');
+
+        // 新增：刷新提示框控制逻辑
+        function initRefreshAlert() {
+            const refreshAlert = document.getElementById('refreshAlert');
+            const doRefreshBtn = document.getElementById('doRefresh');
+            const closeAlertBtn = document.getElementById('closeAlert');
+
+            // 页面加载完成后显示提示框
+            refreshAlert.style.display = 'block';
+
+            // 立即刷新：强制刷新忽略缓存
+            doRefreshBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // 阻止事件冒泡，不影响其他功能
+                window.location.reload(true);
+            });
+
+            // 稍后再说：隐藏提示框
+            closeAlertBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // 阻止事件冒泡
+                refreshAlert.style.display = 'none';
+            });
+        }
 
         // 页面加载时自动读取data.json数据
         async function loadData() {
@@ -414,8 +503,9 @@
             });
         }
 
-        // 页面加载完成后执行
+        // 页面加载完成后执行（新增刷新提示框初始化）
         window.onload = function() {
+            initRefreshAlert(); // 初始化刷新提示框
             loadData();
             bindSearchEvents();
         };
