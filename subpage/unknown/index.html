@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 关键：开启响应式适配 -->
     <title>知识库表格 - 90年代风格</title>
     <style>
         /* 90年代风格CSS */
@@ -15,10 +16,21 @@
         
         .container {
             width: 95%;
+            max-width: 1200px; /* 限制最大宽度，避免大屏幕内容过宽 */
             margin: 0 auto;
             background-color: #fff;
             border: 2px outset #c0c0c0;
             padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* 顶部操作区：返回按钮 + 搜索框 横向布局 */
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap; /* 小屏幕自动换行 */
         }
 
         /* 返回按钮样式 - 贴合90年代风格 */
@@ -26,7 +38,6 @@
             background-color: #c0c0c0;
             border: 2px outset #c0c0c0;
             padding: 5px 12px;
-            margin-bottom: 10px;
             cursor: pointer;
             font-family: "Times New Roman", serif;
             font-size: 14px;
@@ -42,6 +53,50 @@
         .back-btn:active {
             border: 2px inset #c0c0c0;
         }
+
+        /* 搜索框样式 - 90年代复古风 */
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex: 1; /* 占满剩余宽度，小屏幕自动收缩 */
+            min-width: 200px; /* 小屏幕最小宽度，避免挤压 */
+        }
+
+        .search-label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 5px;
+            border: 2px inset #c0c0c0; /* 90年代经典输入框凹陷边框 */
+            background-color: #fff;
+            font-family: "Times New Roman", serif;
+            font-size: 14px;
+        }
+
+        .search-btn {
+            background-color: #c0c0c0;
+            border: 2px outset #c0c0c0;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: "Times New Roman", serif;
+            font-size: 14px;
+        }
+
+        .search-btn:active {
+            border: 2px inset #c0c0c0;
+        }
+
+        /* 搜索结果提示 */
+        .search-result {
+            font-size: 14px;
+            margin: 5px 0 10px;
+            color: #000080;
+            font-style: italic;
+        }
         
         h1 {
             font-size: 24px;
@@ -49,27 +104,45 @@
             font-weight: bold;
             color: #000080;
             text-align: center;
+            line-height: 1.2; /* 小屏幕标题不换行 */
+        }
+        
+        /* 表格容器：小屏幕可横向滚动，避免内容挤压 */
+        .table-container {
+            width: 100%;
+            overflow-x: auto; /* 关键：横向滚动 */
+            margin-top: 10px;
         }
         
         table {
             width: 100%;
+            min-width: 600px; /* 表格最小宽度，确保内容不重叠 */
             border-collapse: collapse;
-            margin-top: 10px;
         }
         
         th, td {
             border: 1px solid #000;
             padding: 5px;
             text-align: left;
+            font-size: 14px;
         }
         
         th {
             background-color: #008080;
             color: #fff;
+            font-weight: bold;
         }
         
         tr:nth-child(even) {
             background-color: #e8e8e8;
+        }
+
+        /* 无数据提示 */
+        .no-data {
+            text-align: center;
+            padding: 20px;
+            color: #ff0000;
+            font-size: 14px;
         }
         
         .status {
@@ -109,12 +182,91 @@
             50% { opacity: 0; }
             100% { opacity: 1; }
         }
+
+        /* 响应式媒体查询：针对不同设备调整 */
+        @media (max-width: 768px) { /* 平板及以下 */
+            .top-actions {
+                gap: 8px;
+            }
+
+            .back-btn, .search-btn {
+                padding: 4px 8px;
+                font-size: 13px;
+            }
+
+            .search-input {
+                padding: 4px;
+                font-size: 13px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            th, td {
+                padding: 4px;
+                font-size: 13px;
+            }
+
+            .github-info {
+                padding: 8px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) { /* 手机 */
+            body {
+                margin: 5px;
+            }
+
+            .container {
+                padding: 8px;
+                width: 98%;
+            }
+
+            .top-actions {
+                gap: 5px;
+            }
+
+            .search-label {
+                display: none; /* 手机端隐藏"搜索："文字，节省空间 */
+            }
+
+            .search-container {
+                min-width: 150px;
+            }
+
+            h1 {
+                font-size: 18px;
+                margin-bottom: 8px;
+            }
+
+            .status {
+                font-size: 13px;
+                padding: 4px;
+            }
+
+            .github-info {
+                margin-top: 15px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- 新增：返回按钮，跳转至../../../index.html -->
-        <a href="../../index.html" class="back-btn">← 返回首页</a>
+        <!-- 顶部操作区：返回按钮 + 搜索框 -->
+        <div class="top-actions">
+            <a href="../../index.html" class="back-btn">← 返回首页</a>
+            
+            <div class="search-container">
+                <span class="search-label">搜索：</span>
+                <input type="text" id="searchInput" class="search-input" placeholder="输入关键词搜索...">
+                <button id="searchBtn" class="search-btn">搜索</button>
+            </div>
+        </div>
+
+        <!-- 搜索结果提示 -->
+        <div id="searchResult" class="search-result" style="display: none;"></div>
         
         <h1>我的知识库表格</h1>
         
@@ -123,35 +275,43 @@
             正在加载数据...
         </div>
         
-        <!-- 知识库核心表格 -->
-        <table id="knowledgeTable">
-            <thead>
-                <tr>
-                    <th>编号</th>
-                    <th>主题</th>
-                    <th>类别</th>
-                    <th>描述</th>
-                    <th>重要性</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                <!-- 数据将通过JavaScript动态添加 -->
-            </tbody>
-        </table>
+        <!-- 表格容器：小屏幕可横向滚动 -->
+        <div class="table-container">
+            <!-- 知识库核心表格 -->
+            <table id="knowledgeTable">
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>主题</th>
+                        <th>类别</th>
+                        <th>描述</th>
+                        <th>重要性</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- 数据将通过JavaScript动态添加 -->
+                </tbody>
+            </table>
+        </div>
         
-        <!-- 网站说明（去除用户提交相关内容） -->
+        <!-- 网站说明 -->
         <div class="github-info">
             <h2>关于此网站</h2>
             <p>这个网站托管在 GitHub Pages 上，展示个人知识库数据。</p>
-            <p class="blink">提示: 表格支持响应式适配，可在不同设备上查看。</p>
+            <p class="blink">提示: 支持搜索主题、类别、描述，手机端可横向滑动表格查看完整内容。</p>
         </div>
     </div>
 
     <script>
+        let fullData = []; // 存储完整数据，用于搜索过滤
+        const tableBody = document.getElementById('tableBody');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const searchResult = document.getElementById('searchResult');
+
         // 页面加载时自动读取data.json数据
         async function loadData() {
             const statusElement = document.getElementById('status');
-            const tableBody = document.getElementById('tableBody');
             
             try {
                 statusElement.textContent = "正在从根目录加载data.json文件...";
@@ -164,23 +324,10 @@
                     throw new Error(`HTTP错误! 状态: ${response.status}`);
                 }
                 
-                const data = await response.json();
+                fullData = await response.json(); // 保存完整数据到fullData
+                renderTable(fullData); // 渲染完整表格
                 
-                // 清空表格并填充数据
-                tableBody.innerHTML = '';
-                data.forEach(item => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${item.id || ''}</td>
-                        <td>${item.topic || ''}</td>
-                        <td>${item.category || ''}</td>
-                        <td>${item.description || ''}</td>
-                        <td>${item.importance || ''}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-                
-                statusElement.textContent = `数据加载成功! 共加载 ${data.length} 条知识记录。`;
+                statusElement.textContent = `数据加载成功! 共加载 ${fullData.length} 条知识记录。`;
                 statusElement.className = "status success";
                 
             } catch (error) {
@@ -188,34 +335,90 @@
                 statusElement.textContent = `错误: 无法加载data.json文件。错误详情: ${error.message}`;
                 statusElement.className = "status error";
                 
-                // 显示示例数据作为备用
-                displaySampleData(tableBody);
+                // 显示示例数据作为备用，并保存到fullData
+                fullData = getSampleData();
+                renderTable(fullData);
             }
         }
-        
-        // 显示示例数据（文件加载失败时备用）
-        function displaySampleData(tableBody) {
-            const sampleData = [
-  
+
+        // 生成示例数据
+        function getSampleData() {
+            return [
+
             ];
-            
-            // 填充示例数据
+        }
+
+        // 渲染表格（支持传入过滤后的数据）
+        function renderTable(data) {
             tableBody.innerHTML = '';
-            sampleData.forEach(item => {
+            
+            // 无数据时显示提示
+            if (data.length === 0) {
+                const noDataRow = document.createElement('tr');
+                noDataRow.innerHTML = `<td colspan="5" class="no-data">未找到匹配的知识记录</td>`;
+                tableBody.appendChild(noDataRow);
+                return;
+            }
+            
+            // 填充数据
+            data.forEach(item => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${item.id}</td>
-                    <td>${item.topic}</td>
-                    <td>${item.category}</td>
-                    <td>${item.description}</td>
-                    <td>${item.importance}</td>
+                    <td>${item.id || ''}</td>
+                    <td>${item.topic || ''}</td>
+                    <td>${item.category || ''}</td>
+                    <td>${item.description || ''}</td>
+                    <td>${item.importance || ''}</td>
                 `;
                 tableBody.appendChild(row);
             });
         }
-        
-        // 页面加载完成后执行数据加载
-        window.onload = loadData;
+
+        // 搜索功能：根据关键词过滤数据
+        function handleSearch() {
+            const keyword = searchInput.value.trim().toLowerCase(); // 关键词转小写，不区分大小写
+            
+            // 无关键词时显示完整数据
+            if (!keyword) {
+                renderTable(fullData);
+                searchResult.style.display = 'none';
+                return;
+            }
+            
+            // 过滤数据：匹配主题、类别、描述
+            const filteredData = fullData.filter(item => {
+                const topicMatch = item.topic?.toLowerCase().includes(keyword);
+                const categoryMatch = item.category?.toLowerCase().includes(keyword);
+                const descMatch = item.description?.toLowerCase().includes(keyword);
+                return topicMatch || categoryMatch || descMatch;
+            });
+            
+            // 渲染过滤后的数据
+            renderTable(filteredData);
+            
+            // 显示搜索结果提示
+            searchResult.style.display = 'block';
+            searchResult.textContent = `找到 ${filteredData.length} 条与"${keyword}"相关的记录`;
+        }
+
+        // 绑定搜索事件（按钮点击 + 回车键）
+        function bindSearchEvents() {
+            // 按钮点击搜索
+            searchBtn.addEventListener('click', handleSearch);
+            
+            // 回车键搜索
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+        }
+
+        // 页面加载完成后执行
+        window.onload = function() {
+            loadData();
+            bindSearchEvents();
+        };
     </script>
 </body>
 </html>
