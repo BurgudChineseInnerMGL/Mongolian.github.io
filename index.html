@@ -146,6 +146,69 @@
             color: #333333;
         }
 
+        /* 新增：XP风格刷新提示框 */
+        .refresh-alert {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 380px;
+            max-width: 90%;
+            border: 1px solid #003C74;
+            background-color: #FFFFFF;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+            z-index: 9999;
+            display: none; /* 默认隐藏 */
+        }
+
+        .alert-titlebar {
+            height: 24px;
+            background: linear-gradient(to right, #0054E3, #0078D7);
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .alert-content {
+            padding: 20px 15px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333333;
+        }
+
+        .alert-btn-group {
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 15px;
+            border-top: 1px solid #C0C0C0;
+            background-color: #F0F0F0;
+        }
+
+        .alert-btn {
+            height: 24px;
+            padding: 0 12px;
+            margin-left: 8px;
+            background-color: #F0F0F0;
+            border: 1px solid #C0C0C0;
+            border-radius: 2px;
+            font-family: "SimSun", "Tahoma", sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .alert-btn:hover {
+            background-color: #E8E8E8;
+            border-color: #A0A0A0;
+        }
+
+        .alert-btn:active {
+            box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
+        }
+
         /* 平板设备（≤768px）适配 */
         @media (max-width: 768px) {
             .page-container {
@@ -184,6 +247,11 @@
             .nav-item {
                 font-size: 13px;
                 padding: 4px 10px;
+            }
+
+            /* 提示框适配平板 */
+            .refresh-alert {
+                width: 320px;
             }
         }
 
@@ -232,10 +300,32 @@
                 font-size: 10px;
                 height: 22px;
             }
+
+            /* 提示框适配手机 */
+            .refresh-alert {
+                width: 280px;
+            }
+
+            .alert-content {
+                padding: 15px 12px;
+                font-size: 13px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 新增：刷新提示框 -->
+    <div class="refresh-alert" id="refreshAlert">
+        <div class="alert-titlebar">提示信息</div>
+        <div class="alert-content">
+            请刷新网页以获得最新的网页内容，否则在某些设备上可能仅显示缓存的旧页面。
+        </div>
+        <div class="alert-btn-group">
+            <button class="alert-btn" id="doRefresh">立即刷新</button>
+            <button class="alert-btn" id="closeAlert">已经刷新</button>
+        </div>
+    </div>
+
     <div class="xp-window">
         <div class="xp-titlebar">
             蒙古语学习网站 - 布日古德
@@ -278,5 +368,28 @@
             状态栏 - 布日古德蒙古语学习网站 © 2025
         </div>
     </div>
+
+    <!-- 新增：提示框控制脚本 -->
+    <script>
+        // 页面加载完成后显示提示框
+        window.onload = function() {
+            const refreshAlert = document.getElementById('refreshAlert');
+            const doRefreshBtn = document.getElementById('doRefresh');
+            const closeAlertBtn = document.getElementById('closeAlert');
+
+            // 显示提示框
+            refreshAlert.style.display = 'block';
+
+            // 立即刷新按钮事件
+            doRefreshBtn.addEventListener('click', function() {
+                window.location.reload(true); // 强制刷新，忽略缓存
+            });
+
+            // 关闭提示框按钮事件
+            closeAlertBtn.addEventListener('click', function() {
+                refreshAlert.style.display = 'none';
+            });
+        };
+    </script>
 </body>
 </html>
