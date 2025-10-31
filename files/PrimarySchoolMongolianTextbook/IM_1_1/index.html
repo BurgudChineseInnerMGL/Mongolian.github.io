@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF文档浏览器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'MS Sans Serif', Tahoma, Geneva, sans-serif;
+            font-size: 11px;
+        }
+        
+        body {
+            background: #008080;
+            height: 100vh;
+            color: #000;
+            overflow: hidden;
+        }
+        
+        .window {
+            width: 100%;
+            height: 100vh;
+            background: #c0c0c0;
+            border: 2px outset #c0c0c0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .title-bar {
+            background: linear-gradient(90deg, #000080, #1084d0);
+            color: white;
+            padding: 3px 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .title-bar i {
+            margin-right: 5px;
+        }
+        
+        .window-controls {
+            display: flex;
+        }
+        
+        .window-control {
+            width: 16px;
+            height: 14px;
+            background: #c0c0c0;
+            border: 1px outset #c0c0c0;
+            margin-left: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .content-area {
+            padding: 10px;
+            background: #c0c0c0;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .download-section {
+            margin-bottom: 15px;
+            border: 1px inset #c0c0c0;
+            background: #fff;
+            flex-shrink: 0;
+        }
+        
+        .section-title {
+            background: #000080;
+            color: white;
+            padding: 3px 8px;
+            font-weight: bold;
+        }
+        
+        .section-content {
+            padding: 10px;
+        }
+        
+        .button {
+            background: #c0c0c0;
+            border: 2px outset #c0c0c0;
+            padding: 5px 15px;
+            cursor: pointer;
+            font-family: 'MS Sans Serif', Tahoma;
+            font-size: 11px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: black;
+        }
+        
+        .button i {
+            margin-right: 5px;
+            font-size: 14px;
+        }
+        
+        .button:hover {
+            background: #d4d0c8;
+        }
+        
+        .button:active {
+            border: 2px inset #c0c0c0;
+        }
+        
+        .pdf-section {
+            border: 1px inset #c0c0c0;
+            background: #fff;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .pdf-section-content {
+            padding: 10px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .pdf-container {
+            width: 100%;
+            flex-grow: 1;
+            border: 1px inset #c0c0c0;
+            background: white;
+            overflow: hidden;
+        }
+        
+        .pdf-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .status-bar {
+            background: #c0c0c0;
+            border-top: 1px inset #c0c0c0;
+            padding: 3px 8px;
+            display: flex;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <div>
+                <i class="fas fa-file-pdf"></i> PDF文档浏览器
+            </div>
+            <div class="window-controls">
+                <div class="window-control" id="minimizeBtn">_</div>
+                <div class="window-control" id="fullscreenBtn">□</div>
+                <div class="window-control" id="closeBtn">×</div>
+            </div>
+        </div>
+        
+        <div class="content-area">
+            <div class="download-section">
+                <div class="section-title">下载选项</div>
+                <div class="section-content">
+                    <p>选择您需要的下载选项：</p>
+                    <div class="button-group">
+                        <a href="./1-1.PDF" class="button" download>
+                            <i class="fas fa-file-pdf"></i> 压缩版 PDF
+                        </a>
+                        <a href="./1-1.part1.rar" class="button" download>
+                            <i class="fas fa-file-archive"></i> 完整版 Part 1
+                        </a>
+                        <a href="./1-1.part2.rar" class="button" download>
+                            <i class="fas fa-file-archive"></i> 完整版 Part 2
+                        </a>
+                        <a href="../../../index.html" class="button">
+                            <i class="fas fa-home"></i> 返回主页
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pdf-section">
+                <div class="section-title">文档预览</div>
+                <div class="pdf-section-content">
+                    <p>当前文档：1-1.PDF</p>
+                    <div class="pdf-container">
+                        <iframe src="./1-1.PDF" class="pdf-viewer" title="PDF文档"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-bar">
+            <div>就绪</div>
+            <div></div>
+        </div>
+    </div>
+
+    <script>
+        // 窗口控制按钮功能
+        document.getElementById('minimizeBtn').addEventListener('click', function() {
+            document.body.style.display = 'none';
+            setTimeout(() => {
+                document.body.style.display = 'block';
+            }, 500);
+        });
+        
+        document.getElementById('fullscreenBtn').addEventListener('click', function() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`全屏请求错误: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        });
+        
+        document.getElementById('closeBtn').addEventListener('click', function() {
+            if (confirm('确定要关闭PDF查看器吗？')) {
+                window.close();
+            }
+        });
+        
+        // 添加按钮点击效果
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('mousedown', function() {
+                this.style.border = '2px inset #c0c0c0';
+            });
+            
+            button.addEventListener('mouseup', function() {
+                this.style.border = '2px outset #c0c0c0';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.border = '2px outset #c0c0c0';
+            });
+        });
+
+        // 监听全屏变化
+        document.addEventListener('fullscreenchange', function() {
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            if (document.fullscreenElement) {
+                fullscreenBtn.textContent = '❐';
+            } else {
+                fullscreenBtn.textContent = '□';
+            }
+        });
+    </script>
+</body>
+</html>
