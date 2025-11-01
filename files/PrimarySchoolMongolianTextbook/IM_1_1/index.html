@@ -183,13 +183,13 @@
                 <div class="section-content">
                     <p>选择您需要的下载选项：</p>
                     <div class="button-group">
-                        <a href="./1-1.PDF" class="button" download>
+                        <a href="./11.PDF" class="button" download>
                             <i class="fas fa-file-pdf"></i> 压缩版 PDF
                         </a>
-                        <a href="./1-1.part1.rar" class="button" download>
+                        <a href="./11.part1.rar" class="button" download>
                             <i class="fas fa-file-archive"></i> 完整版 Part 1
                         </a>
-                        <a href="./1-1.part2.rar" class="button" download>
+                        <a href="./11.part2.rar" class="button" download>
                             <i class="fas fa-file-archive"></i> 完整版 Part 2
                         </a>
                         <a href="../../../index.html" class="button">
@@ -234,13 +234,7 @@
                 document.exitFullscreen();
             }
         });
-        
-        document.getElementById('closeBtn').addEventListener('click', function() {
-            if (confirm('确定要关闭PDF查看器吗？')) {
-                window.close();
-            }
-        });
-        
+		
         // 添加按钮点击效果
         document.querySelectorAll('.button').forEach(button => {
             button.addEventListener('mousedown', function() {
