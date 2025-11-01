@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠦᠨ ᠰᠠᠢᠲ</title>
+    <title>蒙古语学习网站 - 布日古德</title>
     <style>
         /* 全局样式 - Windows XP风格基础 */
         body {
@@ -31,10 +31,36 @@
             padding: 0 10px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             color: #FFFFFF;
             font-weight: bold;
             font-size: 12px;
             border-bottom: 1px solid #003C74;
+        }
+
+        /* 语言切换器 */
+        .language-switcher {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            padding: 2px 8px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: #FFFFFF;
+            font-size: 11px;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+
+        .lang-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .lang-btn.active {
+            background-color: rgba(255, 255, 255, 0.4);
+            border-color: #FFFFFF;
         }
 
         /* 内容区布局 */
@@ -385,65 +411,66 @@
 <body>
     <!-- 刷新提示框 -->
     <div class="refresh-alert" id="refreshAlert">
-        <div class="alert-titlebar">提示信息</div>
-        <div class="alert-content">
-            请刷新网页以获得最新的网页内容，否则在某些设备上可能仅显示缓存的旧页面。
-        </div>
+        <div class="alert-titlebar" data-key="alertTitle">提示信息</div>
+        <div class="alert-content" data-key="alertContent">请刷新网页以获得最新的网页内容，否则在某些设备上可能仅显示缓存的旧页面。</div>
         <div class="alert-btn-group">
-            <button class="alert-btn" id="doRefresh">立即刷新</button>
-            <button class="alert-btn" id="closeAlert">已经刷新</button>
+            <button class="alert-btn" id="doRefresh" data-key="refreshBtn">立即刷新</button>
+            <button class="alert-btn" id="closeAlert" data-key="refreshedBtn">已经刷新</button>
         </div>
     </div>
 
     <div class="xp-window">
         <div class="xp-titlebar">
-            蒙古语学习网站 - 布日古德
+            <span data-key="siteTitle">蒙古语学习网站 - 布日古德</span>
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="zh">中文</button>
+                <button class="lang-btn" data-lang="en">English</button>
+                <button class="lang-btn" data-lang="mn">Монгол</button>
+            </div>
         </div>
 
         <div class="page-container">
             <div class="left-column">
-                <p class="vertical-text">ᠪᠦᠷᠭᠡᠳ ᠦᠨ ᠮᠣᠩᠭᠣᠯ ᠬᠡᠯᠡᠨ ᠦ ᠸᠧᠪ ᠰᠠᠢᠢᠲ</p>
-                <p class="vertical-text">ᠡᠨᠡ ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠦᠨ ᠰᠠᠢᠲ ᠰᠤᠷᠤᠯᠴᠠᠭᠴᠢᠳ ᠲᠤ ᠪᠠᠶᠠᠯᠢᠭ ᠡᠬᠢ ᠰᠤᠷᠪᠤᠯᠵᠢ ᠶᠢ ᠬᠠᠩᠭᠠᠵᠤ ᠪᠠᠢᠨ᠎ᠠ᠃</p>
+                <p class="vertical-text" data-key="verticalText1">ᠪᠦᠷᠭᠡᠳ ᠦᠨ ᠮᠣᠩᠭᠣᠯ ᠬᠡᠯᠡᠨ ᠦ ᠸᠧᠪ ᠰᠠᠢᠢᠲ</p>
+                <p class="vertical-text" data-key="verticalText2">ᠡᠨᠡ ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠦᠨ ᠰᠠᠢᠲ ᠰᠤᠷᠤᠯᠴᠠᠭᠴᠢᠳ ᠲᠤ ᠪᠠᠶᠠᠯᠢᠭ ᠡᠬᠢ ᠰᠤᠷᠪᠤᠯᠵᠢ ᠶᠢ ᠬᠠᠩᠭᠠᠵᠤ ᠪᠠᠢᠨ᠎ᠠ᠃</p>
             </div>
             
             <div class="right-column">
-                <p class="right-content">这是一个来自内蒙古自治区的草原孩子的蒙古语学习分享站。<br>五十六个民族是一家，中华民族一家亲<br>在这里，你可以找到蒙古语基础词汇、语法知识、日常对话以及蒙古语相关的内容。</p>
-                <p class="right-content" style="margin-top: 20px;">无论是初学者还是有一定基础的学习者，都能在这里找到适合自己的学习资源。我们致力于推广蒙古语文化，让更多人了解和喜爱这门优美的语言。</p>
+                <p class="right-content" data-key="content1">这是一个来自内蒙古自治区的草原孩子的蒙古语学习分享站。<br>五十六个民族是一家，中华民族一家亲<br>在这里，你可以找到蒙古语基础词汇、语法知识、日常对话以及蒙古语相关的内容。</p>
+                <p class="right-content" data-key="content2" style="margin-top: 20px;">无论是初学者还是有一定基础的学习者，都能在这里找到适合自己的学习资源。我们致力于推广蒙古语文化，让更多人了解和喜爱这门优美的语言。</p>
 
                 <!-- 推荐导航区域 -->
                 <div class="recommended-nav">
-                    <div class="nav-title">推荐学习内容</div>
+                    <div class="nav-title" data-key="navTitle1">推荐学习内容</div>
                     <ul class="nav-list">
-                        <li class="nav-item"><a href=".\subpage\Primary_MGL\index.html">小学蒙古语语文</a></li>
-                        <li class="nav-item">基础语法教程</li>
-                        <li class="nav-item">学习问答社区</li>
+                        <li class="nav-item"><a href=".\subpage\Primary_MGL\index.html" data-key="navItem1">小学蒙古语语文</a></li>
+                        <li class="nav-item" data-key="navItem2">基础语法教程</li>
+                        <li class="nav-item" data-key="navItem3">学习问答社区</li>
                     </ul>
                 </div>
 				
                 <!-- 个人笔记 -->
-						<div class="recommended-nav">
-							<div class="nav-title">个人笔记</div>
-							<ul class="nav-list">
-								<li class="nav-item"><a href=".\subpage\basic\yuanyin_fuyin\index.html">小学蒙古语语文元音与辅音</a></li>
-								<li class="nav-item"><a href="./files/PrimarySchoolMongolianTextbook/IM_1_1/index.html">内蒙古自治区教材一年级上册</a></li>
-								<li class="nav-item"><a href="./files/PrimarySchoolMongolianTextbook/IM_1_2/index.html">内蒙古自治区教材一年级下册</a></li>
-							</ul>
-						</div>
+                <div class="recommended-nav">
+                    <div class="nav-title" data-key="navTitle2">个人笔记</div>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href=".\subpage\basic\yuanyin_fuyin\index.html" data-key="noteItem1">小学蒙古语语文元音与辅音</a></li>
+                        <li class="nav-item"><a href="./files/PrimarySchoolMongolianTextbook/IM_1_1/index.html" data-key="noteItem2">内蒙古自治区教材一年级上册</a></li>
+                        <li class="nav-item"><a href="./files/PrimarySchoolMongolianTextbook/IM_1_2/index.html" data-key="noteItem3">内蒙古自治区教材一年级下册</a></li>
+                    </ul>
+                </div>
 				
 				<!-- 杂碎知识分享 -->
 				<div class="recommended-nav">
-				    <div class="nav-title">杂碎的知识分享（本块只分享杂碎的知识，任何违法内容本网站一概拒绝！）</div>
+				    <div class="nav-title" data-key="navTitle3">杂碎的知识分享（本块只分享杂碎的知识，任何违法内容本网站一概拒绝！）</div>
 				    <ul class="nav-list">
-				        <li class="nav-item"><a href=".\subpage\unknown\index.html">杂碎的知识（来源网友）</a></li>
+				        <li class="nav-item"><a href=".\subpage\unknown\index.html" data-key="miscItem1">杂碎的知识（来源网友）</a></li>
 				    </ul>
 				</div>
 
                 <!-- 赞助模块：图片跟随页面大小自适应 -->
                 <div class="sponsor-section">
-                    <div class="sponsor-title">支持与赞助</div>
-                    <div class="sponsor-desc">
-                        若您觉得本站内容对您有帮助，欢迎通过以下方式支持我们！您的每一份支持，都是我们持续更新蒙古语学习资源的动力。
-                    </div>
+                    <div class="sponsor-title" data-key="sponsorTitle">支持与赞助</div>
+                    <div class="sponsor-desc" data-key="sponsorDesc">若您觉得本站内容对您有帮助，欢迎通过以下方式支持我们！您的每一份支持，都是我们持续更新蒙古语学习资源的动力。</div>
                     <div class="sponsor-imgs-container">
                         <!-- 支付宝自适应图片 -->
                         <img src="./zfb.jpg" alt="支付宝赞助" class="sponsor-img">
@@ -456,13 +483,147 @@
         </div>
 
         <div class="xp-statusbar">
-            状态栏 - 布日古德蒙古语学习网站 © 2025
+            <span data-key="statusText">状态栏 - 布日古德蒙古语学习网站 © 2025</span>
         </div>
     </div>
 
     <!-- 提示框控制脚本 -->
     <script>
+        // 语言数据
+        const languageData = {
+            zh: {
+                siteTitle: "蒙古语学习网站 - 布日古德",
+                verticalText1: "ᠪᠦᠷᠭᠡᠳ ᠦᠨ ᠮᠣᠩᠭᠣᠯ ᠬᠡᠯᠡᠨ ᠦ ᠸᠧᠪ ᠰᠠᠢᠢᠲ",
+                verticalText2: "ᠡᠨᠡ ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠦᠨ ᠰᠠᠢᠲ ᠰᠤᠷᠤᠯᠴᠠᠭᠴᠢᠳ ᠲᠤ ᠪᠠᠶᠠᠯᠢᠭ ᠡᠬᠢ ᠰᠤᠷᠪᠤᠯᠵᠢ ᠶᠢ ᠬᠠᠩᠭᠠᠵᠤ ᠪᠠᠢᠨ᠎ᠠ᠃",
+                content1: "这是一个来自内蒙古自治区的草原孩子的蒙古语学习分享站。<br>五十六个民族是一家，中华民族一家亲<br>在这里，你可以找到蒙古语基础词汇、语法知识、日常对话以及蒙古语相关的内容。",
+                content2: "无论是初学者还是有一定基础的学习者，都能在这里找到适合自己的学习资源。我们致力于推广蒙古语文化，让更多人了解和喜爱这门优美的语言。",
+                navTitle1: "推荐学习内容",
+                navItem1: "小学蒙古语语文",
+                navItem2: "基础语法教程",
+                navItem3: "学习问答社区",
+                navTitle2: "个人笔记",
+                noteItem1: "小学蒙古语语文元音与辅音",
+                noteItem2: "内蒙古自治区教材一年级上册",
+                noteItem3: "内蒙古自治区教材一年级下册",
+                navTitle3: "杂碎的知识分享（本块只分享杂碎的知识，任何违法内容本网站一概拒绝！）",
+                miscItem1: "杂碎的知识（来源网友）",
+                sponsorTitle: "支持与赞助",
+                sponsorDesc: "若您觉得本站内容对您有帮助，欢迎通过以下方式支持我们！您的每一份支持，都是我们持续更新蒙古语学习资源的动力。",
+                statusText: "状态栏 - 布日古德蒙古语学习网站 © 2025",
+                alertTitle: "提示信息",
+                alertContent: "请刷新网页以获得最新的网页内容，否则在某些设备上可能仅显示缓存的旧页面。",
+                refreshBtn: "立即刷新",
+                refreshedBtn: "已经刷新"
+            },
+            en: {
+                siteTitle: "Mongolian Language Learning - Burged",
+                verticalText1: "ᠪᠦᠷᠭᠡᠳ ᠦᠨ ᠮᠣᠩᠭᠣᠯ ᠬᠡᠯᠡᠨ ᠦ ᠸᠧᠪ ᠰᠠᠢᠢᠲ",
+                verticalText2: "ᠡᠨᠡ ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠦᠨ ᠰᠠᠢᠲ ᠰᠤᠷᠤᠯᠴᠠᠭᠴᠢᠳ ᠲᠤ ᠪᠠᠶᠠᠯᠢᠭ ᠡᠬᠢ ᠰᠤᠷᠪᠤᠯᠵᠢ ᠶᠢ ᠬᠠᠩᠭᠠᠵᠤ ᠪᠠᠢᠨ᠎ᠠ᠃",
+                content1: "This is a Mongolian language learning sharing site from a grassland child in Inner Mongolia Autonomous Region.<br>Fifty-six ethnic groups are one family, the Chinese nation is one family.<br>Here you can find basic Mongolian vocabulary, grammar knowledge, daily conversations and Mongolian-related content.",
+                content2: "Whether you are a beginner or have some foundation, you can find learning resources suitable for you here. We are committed to promoting Mongolian culture and letting more people understand and love this beautiful language.",
+                navTitle1: "Recommended Learning Content",
+                navItem1: "Elementary Mongolian Language",
+                navItem2: "Basic Grammar Tutorial",
+                navItem3: "Learning Q&A Community",
+                navTitle2: "Personal Notes",
+                noteItem1: "Mongolian Vowels and Consonants",
+                noteItem2: "Inner Mongolia Textbook Grade 1 Volume 1",
+                noteItem3: "Inner Mongolia Textbook Grade 1 Volume 2",
+                navTitle3: "Miscellaneous Knowledge Sharing (This section only shares miscellaneous knowledge, any illegal content is rejected by this website!)",
+                miscItem1: "Miscellaneous Knowledge (from netizens)",
+                sponsorTitle: "Support and Sponsorship",
+                sponsorDesc: "If you find the content of this site helpful, welcome to support us through the following ways! Every support from you is the motivation for us to continue updating Mongolian learning resources.",
+                statusText: "Status Bar - Burged Mongolian Learning Website © 2025",
+                alertTitle: "Notification",
+                alertContent: "Please refresh the webpage to get the latest content, otherwise on some devices only cached old pages may be displayed.",
+                refreshBtn: "Refresh Now",
+                refreshedBtn: "Already Refreshed"
+            },
+            mn: {
+                siteTitle: "Монгол хэлний сурах сайт - Бүргэд",
+                verticalText1: "ᠪᠦᠷᠭᠡᠳ ᠦᠨ ᠮᠣᠩᠭᠣᠯ ᠬᠡᠯᠡᠨ ᠦ ᠸᠧᠪ ᠰᠠᠢᠢᠲ",
+                verticalText2: "ᠡᠨᠡ ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠦᠨ ᠰᠠᠢᠲ ᠰᠤᠷᠤᠯᠴᠠᠭᠴᠢᠳ ᠲᠤ ᠪᠠᠶᠠᠯᠢᠭ ᠡᠬᠢ ᠰᠤᠷᠪᠤᠯᠵᠢ ᠶᠢ ᠬᠠᠩᠭᠠᠵᠤ ᠪᠠᠢᠨ᠎ᠠ᠃",
+                content1: "",
+                content2: "",
+                navTitle1: "",
+                navItem1: "",
+                navItem2: "",
+                navItem3: "",
+                navTitle2: "",
+                noteItem1: "",
+                noteItem2: "",
+                noteItem3: "",
+                navTitle3: "",
+                miscItem1: "",
+                sponsorTitle: "",
+                sponsorDesc: "",
+                statusText: "",
+                alertTitle: "",
+                alertContent: "",
+                refreshBtn: "",
+                refreshedBtn: ""
+            }
+        };
+
+        // 当前语言
+        let currentLang = 'zh';
+
+        // 初始化语言
+        function initLanguage() {
+            // 从localStorage获取保存的语言设置
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang && languageData[savedLang]) {
+                currentLang = savedLang;
+            }
+            
+            // 更新语言按钮状态
+            updateLanguageButtons();
+            
+            // 应用语言
+            applyLanguage();
+        }
+
+        // 更新语言按钮状态
+        function updateLanguageButtons() {
+            const buttons = document.querySelectorAll('.lang-btn');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('data-lang') === currentLang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // 应用语言
+        function applyLanguage() {
+            const elements = document.querySelectorAll('[data-key]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (languageData[currentLang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.value = languageData[currentLang][key];
+                    } else {
+                        element.innerHTML = languageData[currentLang][key];
+                    }
+                }
+            });
+        }
+
+        // 切换语言
+        function switchLanguage(lang) {
+            if (languageData[lang]) {
+                currentLang = lang;
+                localStorage.setItem('preferredLanguage', lang);
+                updateLanguageButtons();
+                applyLanguage();
+            }
+        }
+
         window.onload = function() {
+            // 初始化语言
+            initLanguage();
+
             const refreshAlert = document.getElementById('refreshAlert');
             const doRefreshBtn = document.getElementById('doRefresh');
             const closeAlertBtn = document.getElementById('closeAlert');
@@ -478,6 +639,14 @@
             // 关闭提示框
             closeAlertBtn.addEventListener('click', function() {
                 refreshAlert.style.display = 'none';
+            });
+
+            // 语言切换事件
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    switchLanguage(lang);
+                });
             });
 
             // 图片加载失败时：备用文本跟随页面大小
