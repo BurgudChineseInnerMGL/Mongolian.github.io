@@ -205,23 +205,7 @@
             font-size: 17px;
         }
         
-        tr:nth-child(even) {
-            background-color: #e8e8e8;
-        }
 
-        /* 类别列特殊样式 - 竖排且字体放大两倍 */
-        th:nth-child(3),  /* 类别表头 */
-        td:nth-child(3) { /* 类别内容 */
-            /* 竖排显示 */
-            writing-mode: vertical-rl; /* 从右到左竖排 */
-            text-orientation: upright; /* 文字直立显示 */
-            white-space: normal; /* 允许换行 */
-            word-break: break-all; /* 文字过长时强制换行 */
-            min-width: 80px; /* 保证竖排列有足够宽度 */
-            padding: 15px 5px; /* 调整内边距 */
-            font-size: 32px; /* 字体放大两倍（原16px → 32px） */
-            line-height: 1.2; /* 调整行高避免重叠 */
-        }
 
         /* 无数据提示 */
         .no-data {
