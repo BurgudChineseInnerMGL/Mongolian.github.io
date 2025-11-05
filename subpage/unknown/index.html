@@ -2,29 +2,38 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 关键：开启响应式适配 -->
-    <title>杂碎知识</title> <!-- 标题修改：原“知识库表格”改为“杂碎知识” -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杂碎知识</title>
     <style>
+        /* 引入指定路径的字体文件 */
+        @font-face {
+            font-family: 'LD-MONG-HWT';
+            src: url('../../fonts/LD-MONG-HWT.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         /* 90年代风格CSS */
         body {
             background-color: #c0c0c0;
-            font-family: "Times New Roman", serif;
+            font-family: 'LD-MONG-HWT', "Times New Roman", serif;
             margin: 10px;
             padding: 0;
             color: #000;
+            font-size: 16px;
         }
         
         .container {
             width: 95%;
-            max-width: 1200px; /* 限制最大宽度，避免大屏幕内容过宽 */
+            max-width: 1000px; /* 适当加宽容器以容纳竖排列 */
             margin: 0 auto;
             background-color: #fff;
             border: 2px outset #c0c0c0;
-            padding: 10px;
+            padding: 15px;
             box-sizing: border-box;
         }
 
-        /* 新增：刷新提示框样式（90年代风格） */
+        /* 刷新提示框样式 */
         .refresh-alert {
             position: fixed;
             top: 50%;
@@ -35,24 +44,26 @@
             border: 1px solid #003C74;
             background-color: #fff;
             box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
-            z-index: 9999; /* 确保在最上层，不被遮挡 */
-            display: none; /* 默认隐藏 */
+            z-index: 9999;
+            display: none;
         }
         .alert-titlebar {
             height: 24px;
-            background: linear-gradient(to right, #0054E3, #0078D7); /* 90年代经典蓝渐变 */
+            background: linear-gradient(to right, #0054E3, #0078D7);
             padding: 0 10px;
             display: flex;
             align-items: center;
             color: #fff;
             font-size: 12px;
             font-weight: bold;
+            font-family: 'LD-MONG-HWT', sans-serif;
         }
         .alert-content {
             padding: 15px;
             font-size: 14px;
             line-height: 1.6;
             color: #333;
+            font-family: 'LD-MONG-HWT', serif;
         }
         .alert-btn-group {
             display: flex;
@@ -67,33 +78,33 @@
             padding: 4px 12px;
             margin-left: 8px;
             cursor: pointer;
-            font-family: "Times New Roman", serif;
+            font-family: 'LD-MONG-HWT', serif;
             font-size: 13px;
         }
         .alert-btn:active {
-            border: 2px inset #c0c0c0; /* 点击凹陷效果，贴合90年代风格 */
+            border: 2px inset #c0c0c0;
         }
 
-        /* 顶部操作区：返回按钮 + 搜索框 横向布局 */
+        /* 顶部操作区：垂直布局 */
         .top-actions {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            flex-wrap: wrap; /* 小屏幕自动换行 */
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        /* 返回按钮样式 - 贴合90年代风格 */
+        /* 返回按钮样式 */
         .back-btn {
             background-color: #c0c0c0;
             border: 2px outset #c0c0c0;
-            padding: 5px 12px;
+            padding: 8px 15px;
             cursor: pointer;
-            font-family: "Times New Roman", serif;
-            font-size: 14px;
+            font-family: 'LD-MONG-HWT', serif;
+            font-size: 16px;
             color: #000;
             text-decoration: none;
             display: inline-block;
+            width: fit-content;
         }
 
         .back-btn:hover {
@@ -104,36 +115,43 @@
             border: 2px inset #c0c0c0;
         }
 
-        /* 搜索框样式 - 90年代复古风 */
+        /* 搜索框样式 - 垂直布局优化 */
         .search-container {
             display: flex;
-            align-items: center;
-            gap: 5px;
-            flex: 1; /* 占满剩余宽度，小屏幕自动收缩 */
-            min-width: 200px; /* 小屏幕最小宽度，避免挤压 */
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
         }
 
         .search-label {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
+            font-family: 'LD-MONG-HWT', serif;
         }
 
         .search-input {
-            flex: 1;
-            padding: 5px;
-            border: 2px inset #c0c0c0; /* 90年代经典输入框凹陷边框 */
+            width: 100%;
+            padding: 8px;
+            border: 2px inset #c0c0c0;
             background-color: #fff;
-            font-family: "Times New Roman", serif;
-            font-size: 14px;
+            font-family: 'LD-MONG-HWT', serif;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .search-btn-group {
+            display: flex;
+            gap: 10px;
         }
 
         .search-btn {
             background-color: #c0c0c0;
             border: 2px outset #c0c0c0;
-            padding: 5px 10px;
+            padding: 8px 15px;
             cursor: pointer;
-            font-family: "Times New Roman", serif;
-            font-size: 14px;
+            font-family: 'LD-MONG-HWT', serif;
+            font-size: 16px;
+            flex: 1;
         }
 
         .search-btn:active {
@@ -142,49 +160,67 @@
 
         /* 搜索结果提示 */
         .search-result {
-            font-size: 14px;
-            margin: 5px 0 10px;
+            font-size: 16px;
+            margin: 10px 0;
             color: #000080;
             font-style: italic;
+            font-family: 'LD-MONG-HWT', serif;
         }
         
         h1 {
-            font-size: 24px;
-            margin: 0 0 10px 0;
+            font-size: 28px;
+            margin: 0 0 20px 0;
             font-weight: bold;
             color: #000080;
             text-align: center;
-            line-height: 1.2; /* 小屏幕标题不换行 */
+            font-family: 'LD-MONG-HWT', serif;
         }
         
-        /* 表格容器：小屏幕可横向滚动，避免内容挤压 */
+        /* 表格容器：垂直布局优化 */
         .table-container {
             width: 100%;
-            overflow-x: auto; /* 关键：横向滚动 */
-            margin-top: 10px;
+            overflow-x: auto;
+            margin-top: 15px;
+            border: 1px solid #808080;
         }
         
         table {
             width: 100%;
-            min-width: 600px; /* 表格最小宽度，确保内容不重叠 */
+            min-width: 800px; /* 增加表格最小宽度以容纳竖排列 */
             border-collapse: collapse;
+            font-size: 16px;
+            font-family: 'LD-MONG-HWT', serif;
         }
         
         th, td {
             border: 1px solid #000;
-            padding: 5px;
+            padding: 8px 10px;
             text-align: left;
-            font-size: 14px;
         }
         
         th {
             background-color: #008080;
             color: #fff;
             font-weight: bold;
+            font-size: 17px;
         }
         
         tr:nth-child(even) {
             background-color: #e8e8e8;
+        }
+
+        /* 类别列特殊样式 - 竖排且字体放大两倍 */
+        th:nth-child(3),  /* 类别表头 */
+        td:nth-child(3) { /* 类别内容 */
+            /* 竖排显示 */
+            writing-mode: vertical-rl; /* 从右到左竖排 */
+            text-orientation: upright; /* 文字直立显示 */
+            white-space: normal; /* 允许换行 */
+            word-break: break-all; /* 文字过长时强制换行 */
+            min-width: 80px; /* 保证竖排列有足够宽度 */
+            padding: 15px 5px; /* 调整内边距 */
+            font-size: 32px; /* 字体放大两倍（原16px → 32px） */
+            line-height: 1.2; /* 调整行高避免重叠 */
         }
 
         /* 无数据提示 */
@@ -192,15 +228,17 @@
             text-align: center;
             padding: 20px;
             color: #ff0000;
-            font-size: 14px;
+            font-size: 16px;
+            font-family: 'LD-MONG-HWT', serif;
         }
         
         .status {
             background-color: #e8e8e8;
-            padding: 5px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
             border: 1px inset #c0c0c0;
-            font-size: 14px;
+            font-size: 16px;
+            font-family: 'LD-MONG-HWT', serif;
         }
         
         .loading {
@@ -217,10 +255,17 @@
         
         .github-info {
             background-color: #e8e8e8;
-            padding: 10px;
-            margin-top: 20px;
+            padding: 15px;
+            margin-top: 25px;
             border: 2px inset #c0c0c0;
-            font-size: 14px;
+            font-size: 16px;
+            font-family: 'LD-MONG-HWT', serif;
+        }
+        
+        .github-info h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #000080;
         }
         
         .blink {
@@ -233,82 +278,88 @@
             100% { opacity: 1; }
         }
 
-        /* 响应式媒体查询：针对不同设备调整 */
-        @media (max-width: 768px) { /* 平板及以下 */
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .container {
+                max-width: 95%;
+            }
+            
+            /* 竖排列在小屏幕上适当缩小 */
+            th:nth-child(3),
+            td:nth-child(3) {
+                font-size: 24px;
+                min-width: 60px;
+            }
+
             .top-actions {
-                gap: 8px;
+                gap: 12px;
             }
 
             .back-btn, .search-btn, .alert-btn {
-                padding: 4px 8px;
-                font-size: 13px;
+                padding: 6px 12px;
+                font-size: 15px;
             }
 
             .search-input {
-                padding: 4px;
-                font-size: 13px;
+                padding: 6px;
+                font-size: 15px;
             }
 
             h1 {
-                font-size: 20px;
+                font-size: 24px;
             }
 
             th, td {
-                padding: 4px;
-                font-size: 13px;
+                padding: 6px;
+                font-size: 15px;
             }
 
             .github-info {
-                padding: 8px;
-                font-size: 13px;
+                padding: 12px;
+                font-size: 15px;
             }
 
             .alert-content {
-                font-size: 13px;
+                font-size: 14px;
                 padding: 12px;
             }
         }
 
-        @media (max-width: 480px) { /* 手机 */
+        @media (max-width: 480px) {
             body {
                 margin: 5px;
             }
 
             .container {
-                padding: 8px;
+                padding: 10px;
                 width: 98%;
             }
 
-            .top-actions {
-                gap: 5px;
+            .search-btn-group {
+                flex-direction: column;
             }
 
-            .search-label {
-                display: none; /* 手机端隐藏"搜索："文字，节省空间 */
-            }
-
-            .search-container {
-                min-width: 150px;
+            /* 超小屏幕上进一步调整竖排列 */
+            th:nth-child(3),
+            td:nth-child(3) {
+                font-size: 20px;
+                min-width: 50px;
             }
 
             h1 {
-                font-size: 18px;
-                margin-bottom: 8px;
+                font-size: 22px;
+                margin-bottom: 15px;
             }
 
             .status {
-                font-size: 13px;
-                padding: 4px;
-            }
-
-            .github-info {
-                margin-top: 15px;
+                font-size: 14px;
+                padding: 6px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 新增：刷新提示框 -->
+    <!-- 刷新提示框 -->
     <div class="refresh-alert" id="refreshAlert">
         <div class="alert-titlebar">提示信息</div>
         <div class="alert-content">
@@ -321,38 +372,40 @@
     </div>
 
     <div class="container">
-        <!-- 顶部操作区：返回按钮 + 搜索框 -->
+        <!-- 顶部操作区：垂直布局 -->
         <div class="top-actions">
             <a href="../../index.html" class="back-btn">← 返回首页</a>
             
             <div class="search-container">
-                <span class="search-label">搜索：</span>
-                <input type="text" id="searchInput" class="search-input" placeholder="输入关键词搜索...">
-                <button id="searchBtn" class="search-btn">搜索</button>
+                <span class="search-label">搜索知识：</span>
+                <input type="text" id="searchInput" class="search-input" placeholder="输入关键词搜索主题、类别或描述...">
+                <div class="search-btn-group">
+                    <button id="searchBtn" class="search-btn">搜索</button>
+                    <button id="clearBtn" class="search-btn">清除搜索</button>
+                </div>
             </div>
         </div>
 
         <!-- 搜索结果提示 -->
         <div id="searchResult" class="search-result" style="display: none;"></div>
         
-        <h1>杂碎知识</h1> <!-- 标题修改：原“我的知识库表格”改为“杂碎知识” -->
+        <h1>杂碎知识</h1>
         
         <!-- 数据加载状态 -->
         <div id="status" class="status">
             正在加载数据...
         </div>
         
-        <!-- 表格容器：小屏幕可横向滚动 -->
+        <!-- 表格容器 -->
         <div class="table-container">
-            <!-- 知识库核心表格 -->
             <table id="knowledgeTable">
                 <thead>
                     <tr>
                         <th>编号</th>
-                        <th>主题</th>
-                        <th>类别</th>
-                        <th>描述</th>
-                        <th>重要性</th>
+                        <th>汉字</th>
+                        <th>蒙古文</th>
+                        <th>发音</th>
+                        <th>备注</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -365,40 +418,38 @@
         <div class="github-info">
             <h2>关于此网站</h2>
             <p>这个网站托管在 GitHub Pages 上，展示个人知识库数据。</p>
-            <p class="blink">提示: 支持搜索主题、类别、描述，手机端可横向滑动表格查看完整内容。</p>
+            <p class="blink">提示: 支持搜索主题、类别、描述，表格内容可横向滑动查看完整信息。</p>
         </div>
     </div>
 
     <script>
-        let fullData = []; // 存储完整数据，用于搜索过滤
+        let fullData = [];
         const tableBody = document.getElementById('tableBody');
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
+        const clearBtn = document.getElementById('clearBtn');
         const searchResult = document.getElementById('searchResult');
 
-        // 新增：刷新提示框控制逻辑
+        // 刷新提示框控制逻辑
         function initRefreshAlert() {
             const refreshAlert = document.getElementById('refreshAlert');
             const doRefreshBtn = document.getElementById('doRefresh');
             const closeAlertBtn = document.getElementById('closeAlert');
 
-            // 页面加载完成后显示提示框
             refreshAlert.style.display = 'block';
 
-            // 立即刷新：强制刷新忽略缓存
             doRefreshBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // 阻止事件冒泡，不影响其他功能
+                e.stopPropagation();
                 window.location.reload(true);
             });
 
-            // 稍后再说：隐藏提示框
             closeAlertBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // 阻止事件冒泡
+                e.stopPropagation();
                 refreshAlert.style.display = 'none';
             });
         }
 
-        // 页面加载时自动读取data.json数据
+        // 加载数据
         async function loadData() {
             const statusElement = document.getElementById('status');
             
@@ -406,15 +457,14 @@
                 statusElement.textContent = "正在从根目录加载data.json文件...";
                 statusElement.className = "status loading";
                 
-                // 尝试从根目录加载data.json
                 const response = await fetch('./data.json');
                 
                 if (!response.ok) {
                     throw new Error(`HTTP错误! 状态: ${response.status}`);
                 }
                 
-                fullData = await response.json(); // 保存完整数据到fullData
-                renderTable(fullData); // 渲染完整表格
+                fullData = await response.json();
+                renderTable(fullData);
                 
                 statusElement.textContent = `数据加载成功! 共加载 ${fullData.length} 条知识记录。`;
                 statusElement.className = "status success";
@@ -424,24 +474,45 @@
                 statusElement.textContent = `错误: 无法加载data.json文件。错误详情: ${error.message}`;
                 statusElement.className = "status error";
                 
-                // 显示示例数据作为备用，并保存到fullData
-                fullData = getSampleData();
+                // 显示示例数据（增加类别文字长度用于测试换行）
+                fullData = [
+                    {
+                        "id": "1",
+                        "topic": "HTML基础",
+                        "category": "前端开发",
+                        "description": "超文本标记语言，用于创建网页结构",
+                        "importance": "高"
+                    },
+                    {
+                        "id": "2",
+                        "topic": "CSS选择器",
+                        "category": "样式设计",
+                        "description": "用于选择需要样式化的HTML元素",
+                        "importance": "中"
+                    },
+                    {
+                        "id": "3",
+                        "topic": "JavaScript变量",
+                        "category": "脚本编程",
+                        "description": "用于存储数据的值容器",
+                        "importance": "高"
+                    },
+                    {
+                        "id": "4",
+                        "topic": "响应式布局",
+                        "category": "前端设计与开发",
+                        "description": "适配不同设备屏幕的布局方式",
+                        "importance": "高"
+                    }
+                ];
                 renderTable(fullData);
             }
         }
 
-        // 生成示例数据
-        function getSampleData() {
-            return [
-
-            ];
-        }
-
-        // 渲染表格（支持传入过滤后的数据）
+        // 渲染表格
         function renderTable(data) {
             tableBody.innerHTML = '';
             
-            // 无数据时显示提示
             if (data.length === 0) {
                 const noDataRow = document.createElement('tr');
                 noDataRow.innerHTML = `<td colspan="5" class="no-data">未找到匹配的知识记录</td>`;
@@ -449,7 +520,6 @@
                 return;
             }
             
-            // 填充数据
             data.forEach(item => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -463,18 +533,16 @@
             });
         }
 
-        // 搜索功能：根据关键词过滤数据
+        // 搜索功能
         function handleSearch() {
-            const keyword = searchInput.value.trim().toLowerCase(); // 关键词转小写，不区分大小写
+            const keyword = searchInput.value.trim().toLowerCase();
             
-            // 无关键词时显示完整数据
             if (!keyword) {
                 renderTable(fullData);
                 searchResult.style.display = 'none';
                 return;
             }
             
-            // 过滤数据：匹配主题、类别、描述
             const filteredData = fullData.filter(item => {
                 const topicMatch = item.topic?.toLowerCase().includes(keyword);
                 const categoryMatch = item.category?.toLowerCase().includes(keyword);
@@ -482,32 +550,33 @@
                 return topicMatch || categoryMatch || descMatch;
             });
             
-            // 渲染过滤后的数据
             renderTable(filteredData);
             
-            // 显示搜索结果提示
             searchResult.style.display = 'block';
             searchResult.textContent = `找到 ${filteredData.length} 条与"${keyword}"相关的记录`;
         }
 
-        // 绑定搜索事件（按钮点击 + 回车键）
-        function bindSearchEvents() {
-            // 按钮点击搜索
+        // 清除搜索
+        function clearSearch() {
+            searchInput.value = '';
+            renderTable(fullData);
+            searchResult.style.display = 'none';
+        }
+
+        // 绑定事件
+        function bindEvents() {
             searchBtn.addEventListener('click', handleSearch);
-            
-            // 回车键搜索
+            clearBtn.addEventListener('click', clearSearch);
             searchInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    handleSearch();
-                }
+                if (e.key === 'Enter') handleSearch();
             });
         }
 
-        // 页面加载完成后执行（新增刷新提示框初始化）
+        // 页面加载完成后执行
         window.onload = function() {
-            initRefreshAlert(); // 初始化刷新提示框
+            initRefreshAlert();
             loadData();
-            bindSearchEvents();
+            bindEvents();
         };
     </script>
 </body>

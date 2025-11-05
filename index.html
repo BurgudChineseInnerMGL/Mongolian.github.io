@@ -14,6 +14,26 @@
             color: #000000;
         }
 
+        /* ==============================================
+           字体路径配置（重点修改！！！）
+           1. 先在网站根目录创建 "fonts" 文件夹
+           2. 将蒙古语字体文件（如 MenksoftQagan.ttf）放入 fonts 文件夹
+           3. 替换下面 url 中的 "MenksoftQagan.ttf" 为你的字体文件名
+           4. 确保路径格式：./fonts/[你的字体文件名.后缀]
+           ============================================== */
+        @font-face {
+            font-family: "MongolianFont"; /* 自定义字体名称（可修改） */
+            /* 👇👇👇 字体文件路径（核心配置，必须正确！）👇👇👇 */
+            src: url("./fonts/LD-MONG-HWT.ttf") format("truetype"); 
+            /* 可选：添加其他格式字体兼容性更好（如 .woff/.woff2） */
+            /* src: url("./fonts/MenksoftQagan.woff2") format("woff2"),
+                 url("./fonts/MenksoftQagan.woff") format("woff"),
+                 url("./fonts/MenksoftQagan.ttf") format("truetype"); */
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap; /* 字体加载时先显示默认字体，避免空白 */
+        }
+
         /* 主容器 - 模拟XP窗口效果 */
         .xp-window {
             width: calc(100% - 30px);
@@ -87,7 +107,8 @@
             line-height: 2.2;
             margin: 0;
             color: #003366;
-            font-family: "SimSun", serif;
+            /* 👇 应用内嵌蒙古语字体（与上面 font-family 一致） */
+            font-family: "MongolianFont", "SimSun", serif !important;
         }
 
         /* 右侧内容区域 - 模拟XP文档窗口 */
@@ -200,15 +221,10 @@
 
         /* 核心：图片跟随页面大小自适应（删除所有固定尺寸） */
         .sponsor-img {
-            /* 宽度：占父容器40%，两个图片+间隙刚好适配页面 */
             width: 40%;
-            /* 高度：自动匹配宽度，保持图片比例 */
             height: auto;
-            /* 强制保持图片完整性，不拉伸变形 */
             object-fit: contain;
-            /* 限制最大宽度，避免超大屏幕下图片过大 */
             max-width: 300px;
-            /* 静态图片指针样式 */
             cursor: default;
         }
 
@@ -287,7 +303,7 @@
             box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.1);
         }
 
-        /* 平板设备（≤768px）适配：调整图片宽度 */
+        /* 平板设备（≤768px）适配 */
         @media (max-width: 768px) {
             .page-container {
                 flex-direction: column;
@@ -327,14 +343,13 @@
                 padding: 4px 10px;
             }
 
-            /* 平板端图片：调整宽度，适配平板页面 */
             .sponsor-img {
                 width: 45%;
                 max-width: 250px;
             }
         }
 
-        /* 手机设备（≤480px）适配：图片独占一行，跟随手机宽度 */
+        /* 手机设备（≤480px）适配 */
         @media (max-width: 480px) {
             body {
                 padding: 8px;
@@ -379,13 +394,11 @@
                 font-size: 12px;
             }
 
-            /* 手机端图片：独占一行，宽度跟随手机页面 */
             .sponsor-img {
                 width: 80%;
                 max-width: 200px;
             }
 
-            /* 手机端图片容器：纵向排列，适配单列布局 */
             .sponsor-imgs-container {
                 flex-direction: column;
                 gap: 15px;
@@ -405,6 +418,12 @@
                 padding: 15px 12px;
                 font-size: 13px;
             }
+        }
+
+        /* 额外：蒙古语正文文本也应用字体（可选） */
+        [data-lang="mn"] .right-content,
+        [data-key*="mnContent"] {
+            font-family: "MongolianFont", sans-serif !important;
         }
     </style>
 </head>
@@ -431,6 +450,7 @@
 
         <div class="page-container">
             <div class="left-column">
+                <!-- 竖排蒙古语文本（已应用内嵌字体） -->
                 <p class="vertical-text" data-key="verticalText1">ᠪᠦᠷᠭᠡᠳ ᠦᠨ ᠮᠣᠩᠭᠣᠯ ᠬᠡᠯᠡᠨ ᠦ ᠸᠧᠪ ᠰᠠᠢᠢᠲ</p>
                 <p class="vertical-text" data-key="verticalText2">ᠡᠨᠡ ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠦᠨ ᠰᠠᠢᠲ ᠰᠤᠷᠤᠯᠴᠠᠭᠴᠢᠳ ᠲᠤ ᠪᠠᠶᠠᠯᠢᠭ ᠡᠬᠢ ᠰᠤᠷᠪᠤᠯᠵᠢ ᠶᠢ ᠬᠠᠩᠭᠠᠵᠤ ᠪᠠᠢᠨ᠎ᠠ᠃</p>
             </div>
@@ -443,7 +463,7 @@
                 <div class="recommended-nav">
                     <div class="nav-title" data-key="navTitle1">推荐学习内容</div>
                     <ul class="nav-list">
-                        <li class="nav-item"><a href=".\subpage\Primary_MGL\index.html" data-key="navItem1">小学蒙古语语文</a></li>
+                        <li class="nav-item"><a href="./subpage/Primary_MGL/index.html" data-key="navItem1">小学蒙古语语文</a></li>
                         <li class="nav-item" data-key="navItem2">基础语法教程</li>
                         <li class="nav-item" data-key="navItem3">学习问答社区</li>
                     </ul>
@@ -453,7 +473,7 @@
                 <div class="recommended-nav">
                     <div class="nav-title" data-key="navTitle2">个人笔记</div>
                     <ul class="nav-list">
-                        <li class="nav-item"><a href=".\subpage\basic\yuanyin_fuyin\index.html" data-key="noteItem1">小学蒙古语语文元音与辅音</a></li>
+                        <li class="nav-item"><a href="./subpage/basic/yuanyin_fuyin/index.html" data-key="noteItem1">小学蒙古语语文元音与辅音</a></li>
                         <li class="nav-item"><a href="./files/PrimarySchoolMongolianTextbook/IM_1_1/index.html" data-key="noteItem2">内蒙古自治区教材一年级上册</a></li>
                         <li class="nav-item"><a href="./files/PrimarySchoolMongolianTextbook/IM_1_2/index.html" data-key="noteItem3">内蒙古自治区教材一年级下册</a></li>
                     </ul>
@@ -463,7 +483,7 @@
 				<div class="recommended-nav">
 				    <div class="nav-title" data-key="navTitle3">杂碎的知识分享（本块只分享杂碎的知识，任何违法内容本网站一概拒绝！）</div>
 				    <ul class="nav-list">
-				        <li class="nav-item"><a href=".\subpage\unknown\index.html" data-key="miscItem1">杂碎的知识（来源网友）</a></li>
+				        <li class="nav-item"><a href="./subpage/unknown/index.html" data-key="miscItem1">杂碎的知识（来源网友）</a></li>
 				    </ul>
 				</div>
 
@@ -540,28 +560,10 @@
                 refreshedBtn: "Already Refreshed"
             },
             mn: {
-                siteTitle: "Монгол хэлний сурах сайт - Бүргэд",
+
                 verticalText1: "ᠪᠦᠷᠭᠡᠳ ᠦᠨ ᠮᠣᠩᠭᠣᠯ ᠬᠡᠯᠡᠨ ᠦ ᠸᠧᠪ ᠰᠠᠢᠢᠲ",
                 verticalText2: "ᠡᠨᠡ ᠮᠣᠩᠭᠣᠯ ᠪᠢᠴᠢᠭ ᠦᠨ ᠰᠠᠢᠲ ᠰᠤᠷᠤᠯᠴᠠᠭᠴᠢᠳ ᠲᠤ ᠪᠠᠶᠠᠯᠢᠭ ᠡᠬᠢ ᠰᠤᠷᠪᠤᠯᠵᠢ ᠶᠢ ᠬᠠᠩᠭᠠᠵᠤ ᠪᠠᠢᠨ᠎ᠠ᠃",
-                content1: "",
-                content2: "",
-                navTitle1: "",
-                navItem1: "",
-                navItem2: "",
-                navItem3: "",
-                navTitle2: "",
-                noteItem1: "",
-                noteItem2: "",
-                noteItem3: "",
-                navTitle3: "",
-                miscItem1: "",
-                sponsorTitle: "",
-                sponsorDesc: "",
-                statusText: "",
-                alertTitle: "",
-                alertContent: "",
-                refreshBtn: "",
-                refreshedBtn: ""
+
             }
         };
 
@@ -570,16 +572,11 @@
 
         // 初始化语言
         function initLanguage() {
-            // 从localStorage获取保存的语言设置
             const savedLang = localStorage.getItem('preferredLanguage');
             if (savedLang && languageData[savedLang]) {
                 currentLang = savedLang;
             }
-            
-            // 更新语言按钮状态
             updateLanguageButtons();
-            
-            // 应用语言
             applyLanguage();
         }
 
@@ -587,11 +584,7 @@
         function updateLanguageButtons() {
             const buttons = document.querySelectorAll('.lang-btn');
             buttons.forEach(btn => {
-                if (btn.getAttribute('data-lang') === currentLang) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === currentLang);
             });
         }
 
@@ -601,11 +594,9 @@
             elements.forEach(element => {
                 const key = element.getAttribute('data-key');
                 if (languageData[currentLang][key]) {
-                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                        element.value = languageData[currentLang][key];
-                    } else {
-                        element.innerHTML = languageData[currentLang][key];
-                    }
+                    element.tagName === 'INPUT' || element.tagName === 'TEXTAREA'
+                        ? element.value = languageData[currentLang][key]
+                        : element.innerHTML = languageData[currentLang][key];
                 }
             });
         }
@@ -644,16 +635,14 @@
             // 语言切换事件
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    const lang = this.getAttribute('data-lang');
-                    switchLanguage(lang);
+                    switchLanguage(this.getAttribute('data-lang'));
                 });
             });
 
-            // 图片加载失败时：备用文本跟随页面大小
+            // 图片加载失败处理
             const sponsorImgs = document.querySelectorAll('.sponsor-img');
             sponsorImgs.forEach(img => {
                 img.onerror = function() {
-                    // 备用文本宽度跟随图片容器，高度自动
                     this.outerHTML = `<div style="font-size:1.2vw; color:#333; padding:1vw; border:1px dashed #C0C0C0; width: ${this.style.width}; max-width: ${this.style.maxWidth};">${this.alt}</div>`;
                 };
             });
